@@ -1053,6 +1053,7 @@ function show(id) {
   document.getElementById(id).classList.add('active');
   document.getElementById('btn-' + id).classList.add('active');
   window.scrollTo(0, 0);
+  if (id === 'home') setTimeout(buildPortfolioStatus, 50);
 }
 
 // ── COACH ─────────────────────────────────────
@@ -1169,12 +1170,7 @@ function buildPortfolioStatus() {
   if (missingEl) missingEl.style.display = anyMissing ? 'block' : 'none';
 }
 
-// rebuild status whenever home tab is shown - hook into existing show()
-const _showOrig = show;
-function show(id) {
-  _showOrig(id);
-  if (id === 'home') setTimeout(buildPortfolioStatus, 50);
-}
+// rebuild portfolio status on home
 setTimeout(buildPortfolioStatus, 300);
 
 // ── COMBINED PORTFOLIO PDF ─────────────────────
