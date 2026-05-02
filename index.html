@@ -263,6 +263,22 @@ textarea.short{min-height:58px;}
 .matrix-ideas{display:flex;flex-wrap:wrap;gap:6px;}
 .matrix-sticky{background:#fef9c3;border:1.5px solid #e6d700;border-radius:6px;padding:6px 10px;font-size:11.5px;color:var(--ink);cursor:grab;max-width:130px;word-break:break-word;box-shadow:1px 2px 4px rgba(0,0,0,0.07);}
 .matrix-sticky:hover{transform:translateY(-1px);}
+
+/* ── PROPOSAL SECTIONS ── */
+.proposal-section{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);margin-bottom:16px;box-shadow:var(--shadow-sm);}
+.proposal-head{padding:18px 20px;}
+.proposal-num{font-size:16px;font-weight:700;color:white;margin-bottom:3px;}
+.proposal-sub{font-size:12px;color:rgba(255,255,255,0.8);}
+.proposal-body{background:white;padding:18px 20px;}
+.proposal-prompts{background:#f0f4ff;border:1px solid #d0d8f0;border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.proposal-prompts-label{font-size:12px;font-weight:700;color:#3949ab;margin-bottom:8px;}
+.proposal-prompts ul{margin:0;padding-left:16px;list-style:none;}
+.proposal-prompts ul li{font-size:12.5px;color:var(--ink);line-height:1.7;padding-left:4px;}
+.proposal-prompts ul li::before{content:"• ";color:#3949ab;font-weight:700;}
+.proposal-textarea{width:100%;min-height:130px;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--ink);background:var(--mist);outline:none;resize:vertical;transition:border-color .2s;}
+.proposal-textarea:focus{border-color:#6a3de8;background:white;}
+.char-count{font-size:12px;color:#aaa;margin-top:6px;}
+.char-count.met{color:var(--teal);}
 </style>
 </head>
 <body>
@@ -1094,17 +1110,44 @@ window.addEventListener('DOMContentLoaded', buildMap);
 <div id="proposal" class="view">
 <div class="page">
   <div class="hero navy">
-    <div class="hero-tag">Pre-Project Approval</div>
-    <h1>📋 SI/VIA Proposal Form</h1>
-    <p>Complete this before beginning your project. Submit the downloaded PDF to your Teacher Mentor for approval.</p>
+    <div class="hero-tag">Before You Begin the 5 Modes</div>
+    <h1>📋 SI/VIA Proposal</h1>
+    <p>Complete this first and get teacher approval before starting your DT journey. This is about your intent and considerations — not your execution.</p>
   </div>
 
-  <div class="card">
-    <div class="card-head"><span class="ico">👥</span><h2>Project Foundation</h2></div>
+  <!-- HOW THIS WORKS -->
+  <div class="card" style="border-top:3px solid var(--navy);margin-bottom:18px;">
+    <div class="card-body" style="padding:20px;">
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px;">How This Works</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="background:var(--navy);color:white;font-size:12px;font-weight:700;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</span>
+          <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">Complete all 5 sections</div><div style="font-size:12.5px;color:var(--mid);">Answer the guided questions thoughtfully. Take your time — there is no word limit, but minimums apply.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="background:var(--navy);color:white;font-size:12px;font-weight:700;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</span>
+          <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">Strengthen it with AI feedback</div><div style="font-size:12.5px;color:var(--mid);">Use the VIA Proposal Navigator to get personalised feedback before submitting to your teacher.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="background:var(--navy);color:white;font-size:12px;font-weight:700;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</span>
+          <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">Download and submit to your Teacher Mentor</div><div style="font-size:12.5px;color:var(--mid);">Only begin the 5 DT modes after your Teacher Mentor has approved your proposal.</div></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;background:#fffbea;border:1.5px solid #e6c84a;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#7a6010;line-height:1.6;">
+        <strong>Note:</strong> This form is for your own planning and self-assessment. Your final submission must be done via the official form to your Teacher Mentor.
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT BASICS -->
+  <div class="card" style="margin-bottom:18px;">
+    <div class="card-head"><span class="ico">👥</span><h2>Project Basics</h2></div>
     <div class="card-body">
-      <div class="field"><label>Project Title</label><input type="text" id="pr_title" placeholder="e.g. Tech Buddy Programme for Seniors"></div>
-      <div class="field"><label>Team Members & Class</label><input type="text" id="pr_members" placeholder="e.g. 3A: John Lim, Mary Tan, Ravi Kumar"></div>
-      <div class="field"><label>Teacher Mentor</label><input type="text" id="pr_mentor" placeholder="Name of your approving teacher"></div>
+      <div class="field"><label>Project Title</label><input type="text" id="pr_title" placeholder="e.g. Tech Buddy Programme for Seniors at Toa Payoh CC"></div>
+      <div class="grid-2" style="gap:10px;">
+        <div class="field"><label>Team Members &amp; Class</label><input type="text" id="pr_members" placeholder="e.g. 3A: John, Mary, Ravi"></div>
+        <div class="field"><label>Teacher Mentor</label><input type="text" id="pr_mentor" placeholder="Name of approving teacher"></div>
+      </div>
       <div class="field"><label>Project Type</label>
         <select id="pr_type">
           <option value="">Select…</option>
@@ -1117,37 +1160,118 @@ window.addEventListener('DOMContentLoaded', buildMap);
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-head"><span class="ico">🔍</span><h2>Design Thinking Application</h2></div>
-    <div class="card-body">
-      <div class="field"><label>Mode 1 & 2: Empathise & Define <span class="sub">User insights + HMW question</span></label><textarea class="tall" id="pr_empathy" placeholder="Who did you speak to? What did you discover? State your HMW question…"></textarea></div>
-      <div class="field"><label>Mode 3 & 4: Ideate & Prototype <span class="sub">Solution + resources needed</span></label><textarea class="tall" id="pr_ideate" placeholder="Describe your chosen solution. What materials or resources will you need?"></textarea></div>
-      <div class="field"><label>Mode 5: How will you Test? <span class="sub">Who, what, when</span></label><textarea id="pr_test" placeholder="e.g. We will test with 5 seniors at Toa Payoh CC in Week 8…"></textarea></div>
+  <!-- SECTION 1: EMPATHISE -->
+  <div class="proposal-section">
+    <div class="proposal-head" style="background:linear-gradient(135deg,#6a3de8,#4527a0);">
+      <div class="proposal-num">1. Empathise</div>
+      <div class="proposal-sub">Understanding Community Needs</div>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-prompts">
+        <div class="proposal-prompts-label">Answer these:</div>
+        <ul>
+          <li>Who do you seek to serve? (Be specific: age, location, circumstances)</li>
+          <li>What are their primary concerns and needs?</li>
+          <li>How did you learn about these needs? (interviews, observation, research)</li>
+        </ul>
+      </div>
+      <textarea id="pr_empathy" class="proposal-textarea" placeholder="Example: We seek to serve elderly residents (ages 70-85) at Sunshine Home. Through our visit and conversations with the manager, we learned they experience loneliness during weekday afternoons when there are few activities…" oninput="updateCharCount(this,'pr_empathy_count',100)"></textarea>
+      <div class="char-count"><span id="pr_empathy_count">0</span> / 100 characters minimum</div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-head"><span class="ico">📅</span><h2>Implementation Timeline</h2></div>
-    <div class="card-body">
-      <table class="timeline-table">
-        <tr><th>Date</th><th>Activity</th><th>Person-in-Charge</th></tr>
-        <tr><td><input type="date" id="t1d"></td><td><input type="text" id="t1a" placeholder="Activity…"></td><td><input type="text" id="t1p" placeholder="Name…"></td></tr>
-        <tr><td><input type="date" id="t2d"></td><td><input type="text" id="t2a" placeholder="Activity…"></td><td><input type="text" id="t2p" placeholder="Name…"></td></tr>
-        <tr><td><input type="date" id="t3d"></td><td><input type="text" id="t3a" placeholder="Activity…"></td><td><input type="text" id="t3p" placeholder="Name…"></td></tr>
-        <tr><td><input type="date" id="t4d"></td><td><input type="text" id="t4a" placeholder="Activity…"></td><td><input type="text" id="t4p" placeholder="Name…"></td></tr>
-      </table>
+  <!-- SECTION 2: DEFINE -->
+  <div class="proposal-section">
+    <div class="proposal-head" style="background:linear-gradient(135deg,#5e35b1,#3949ab);">
+      <div class="proposal-num">2. Define</div>
+      <div class="proposal-sub">Articulating the Problem</div>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-prompts">
+        <div class="proposal-prompts-label">Answer these:</div>
+        <ul>
+          <li>What is the ONE key problem your project aims to address?</li>
+          <li>Why is this problem important to your beneficiaries?</li>
+          <li>What happens if this problem remains unsolved?</li>
+        </ul>
+      </div>
+      <textarea id="pr_define" class="proposal-textarea" placeholder="Example: The key problem is social isolation during weekday afternoons at Sunshine Home. This matters because it affects mental health and well-being…" oninput="updateCharCount(this,'pr_define_count',80)"></textarea>
+      <div class="char-count"><span id="pr_define_count">0</span> / 80 characters minimum</div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-head"><span class="ico">🎯</span><h2>Expected Impact</h2></div>
-    <div class="card-body">
-      <div class="field"><label>Who benefits, and how many people?</label><input type="text" id="pr_beneficiary" placeholder="e.g. ~30 elderly residents at Toa Payoh CC"></div>
-      <div class="field"><label>How will you measure success?</label><textarea id="pr_measure" placeholder="e.g. Pre and post survey on confidence using PayNow; target 80% reporting improvement…"></textarea></div>
+  <!-- SECTION 3: IDEATE -->
+  <div class="proposal-section">
+    <div class="proposal-head" style="background:linear-gradient(135deg,#5533c8,#3333aa);">
+      <div class="proposal-num">3. Ideate</div>
+      <div class="proposal-sub">Generating Solutions</div>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-prompts">
+        <div class="proposal-prompts-label">Answer these:</div>
+        <ul>
+          <li>List 3–5 possible solutions you brainstormed</li>
+          <li>For each: what it involves and why it could work</li>
+          <li>Which solution did you choose and why?</li>
+        </ul>
+      </div>
+      <textarea id="pr_ideate" class="proposal-textarea" placeholder="Example: Solution 1: Weekly storytelling sessions… Solution 2: Tech training workshops… Solution 3: Board game afternoons (CHOSEN because residents enjoy games and it requires minimal resources)…" oninput="updateCharCount(this,'pr_ideate_count',100)"></textarea>
+      <div class="char-count"><span id="pr_ideate_count">0</span> / 100 characters minimum</div>
     </div>
   </div>
 
-  <div class="btn-wrap"><button class="btn-primary btn-maroon" onclick="dlPDF('proposal')">📥 Download Proposal for Submission</button><div class="save-note" id="pr-save">Work auto-saved to this browser</div></div>
+  <!-- SECTION 4: PROTOTYPE -->
+  <div class="proposal-section">
+    <div class="proposal-head" style="background:linear-gradient(135deg,#4a2db5,#2d2d9e);">
+      <div class="proposal-num">4. Prototype</div>
+      <div class="proposal-sub">Implementation Planning</div>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-prompts">
+        <div class="proposal-prompts-label">Answer these:</div>
+        <ul>
+          <li>Timeline: When, how many sessions, over how long?</li>
+          <li>Activities: What will happen during each session?</li>
+          <li>Resources: Materials, support needed, budget</li>
+          <li>Team roles: Who does what?</li>
+        </ul>
+      </div>
+      <textarea id="pr_prototype" class="proposal-textarea" placeholder="Example: Timeline: 8 weekly sessions, Wednesdays 3–5pm, March–May 2025. Activities: 30min setup, 90min game sessions with 3 stations, 30min reflection. Materials: 5 board game sets ($150), refreshments ($80)…" oninput="updateCharCount(this,'pr_proto_count',150)"></textarea>
+      <div class="char-count"><span id="pr_proto_count">0</span> / 150 characters minimum</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: TEST -->
+  <div class="proposal-section">
+    <div class="proposal-head" style="background:linear-gradient(135deg,#3d27a0,#222299);">
+      <div class="proposal-num">5. Test</div>
+      <div class="proposal-sub">Values, Impact &amp; Feedback</div>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-prompts">
+        <div class="proposal-prompts-label">Answer these:</div>
+        <ul>
+          <li>Which MOE CCE core values does your project reflect? (Respect, Responsibility, Resilience, Integrity, Care, Harmony)</li>
+          <li>How will you gather feedback? (surveys, interviews, observation)</li>
+          <li>How will you measure success? (specific, measurable indicators)</li>
+        </ul>
+      </div>
+      <textarea id="pr_test" class="proposal-textarea" placeholder="Example: Values: Care (showing compassion), Responsibility (being accountable for commitments). Feedback: Post-session surveys with residents, staff interviews. Success: 15+ residents attend each session, 4/5+ satisfaction rating…" oninput="updateCharCount(this,'pr_test_count',100)"></textarea>
+      <div class="char-count"><span id="pr_test_count">0</span> / 100 characters minimum</div>
+    </div>
+  </div>
+
+  <!-- BASE44 CTA -->
+  <div style="background:linear-gradient(135deg,#6a3de8,#3333aa);border-radius:var(--r);padding:22px 20px;margin-bottom:18px;text-align:center;">
+    <div style="font-size:15px;font-weight:700;color:white;margin-bottom:6px;">🤖 Want AI feedback on your proposal?</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:14px;">Use the VIA Proposal Navigator to get personalised, supportive feedback — strengths, areas to develop, and next steps — before submitting to your teacher.</div>
+    <a href="https://via-proposal.base44.app/" target="_blank" style="display:inline-block;background:white;color:#4527a0;font-size:13px;font-weight:700;padding:11px 22px;border-radius:99px;text-decoration:none;letter-spacing:-.1px;">Get AI Feedback →</a>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn-primary btn-maroon" onclick="dlPDF('proposal')">📥 Download Proposal for Submission</button>
+    <div class="save-note" id="pr-save">Work auto-saved to this browser</div>
+  </div>
 </div>
 </div>
 
@@ -1187,7 +1311,7 @@ const allFields = {
   ideate: ['id_1','id_2','id_3','id_4','id_5','id_6','id_7','id_8','id_9','id_scamper_idea','id_s','id_c','id_ad','id_m','id_p','id_el','id_r','id_best'],
   prototype: ['p_idea','p_question','p_type','p_materials','p_roles','p_steps','p_assumptions','p_describe','p_predict'],
   test: ['t_tester','t_task','t_questions','t_observe','t_said','t_worked','t_didnt','t_surprise','t_next','t_goback'],
-  proposal: ['pr_title','pr_members','pr_mentor','pr_type','pr_empathy','pr_ideate','pr_test','t1d','t1a','t1p','t2d','t2a','t2p','t3d','t3a','t3p','t4d','t4a','t4p','pr_beneficiary','pr_measure']
+  proposal: ['pr_title','pr_members','pr_mentor','pr_type','pr_empathy','pr_define','pr_ideate','pr_prototype','pr_test']
 };
 
 function saveSection(section) {
@@ -1694,10 +1818,16 @@ function dlPDF(section) {
     field('Project Title', get('pr_title'));
     field('Team Members & Class', get('pr_members'));
     two('Teacher Mentor', get('pr_mentor'), 'Project Type', get('pr_type'));
-    secHead('🔍 Design Thinking Application', MAROON);
-    field('Modes 1 & 2: Empathise & Define', get('pr_empathy'), WHITE);
-    field('Modes 3 & 4: Ideate & Prototype', get('pr_ideate'), WHITE);
-    field('Mode 5: How Will You Test?', get('pr_test'));
+    secHead('1. Empathise — Understanding Community Needs', [106,61,232]);
+    field('Who you serve, their needs, how you learned about them', get('pr_empathy'), WHITE);
+    secHead('2. Define — Articulating the Problem', [94,53,179]);
+    field('Key problem, why it matters, consequences if unsolved', get('pr_define'), WHITE);
+    secHead('3. Ideate — Generating Solutions', [85,51,170]);
+    field('Solutions brainstormed and chosen solution with rationale', get('pr_ideate'), WHITE);
+    secHead('4. Prototype — Implementation Planning', [74,45,181]);
+    field('Timeline, activities, resources, team roles', get('pr_prototype'), WHITE);
+    secHead('5. Test — Values, Impact & Feedback', [61,39,153]);
+    field('CCE values, feedback methods, success indicators', get('pr_test'), WHITE);
     secHead('📅 Implementation Timeline', TEAL);
     // timeline table in PDF
     chk(50);
@@ -1900,6 +2030,31 @@ window.addEventListener('DOMContentLoaded', () => {
   renderBoards();
   renderMatrix();
   updateDotsDisplay();
+});
+
+
+// ── CHAR COUNTER ──────────────────────────────
+function updateCharCount(el, countId, min) {
+  const len = el.value.length;
+  const countEl = document.getElementById(countId);
+  if (!countEl) return;
+  countEl.textContent = len;
+  const wrap = countEl.closest('.char-count');
+  if (wrap) wrap.classList.toggle('met', len >= min);
+}
+// Init char counts on load
+window.addEventListener('DOMContentLoaded', () => {
+  const fields = [
+    {id:'pr_empathy', countId:'pr_empathy_count', min:100},
+    {id:'pr_define',  countId:'pr_define_count',  min:80},
+    {id:'pr_ideate',  countId:'pr_ideate_count',  min:100},
+    {id:'pr_prototype',countId:'pr_proto_count',  min:150},
+    {id:'pr_test',    countId:'pr_test_count',    min:100},
+  ];
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el && el.value) updateCharCount(el, f.countId, f.min);
+  });
 });
 
 </script>
