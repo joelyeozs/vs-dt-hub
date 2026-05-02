@@ -279,6 +279,12 @@ textarea.short{min-height:58px;}
 .proposal-textarea:focus{border-color:#6a3de8;background:white;}
 .char-count{font-size:12px;color:#aaa;margin-top:6px;}
 .char-count.met{color:var(--teal);}
+
+/* ── TEST METHOD BUTTONS ── */
+.test-opt-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--mist);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--mid);transition:.2s;width:100%;text-align:center;}
+.test-opt-btn:hover{border-color:var(--maroon-mid);background:var(--maroon-light);}
+.test-opt-btn.active{border-color:var(--maroon);background:var(--maroon-light);color:var(--maroon);}
+.test-opt-btn strong{font-size:13px;}
 </style>
 </head>
 <body>
@@ -786,44 +792,127 @@ textarea.short{min-height:58px;}
     <div style="margin-top:20px;"><div class="prog-label">Your progress</div><div class="prog-track"><div class="prog-fill" id="tst-prog"></div></div></div>
   </div>
 
+  <!-- STEP 1: TEST PLAN -->
   <div class="card">
-    <div class="card-head"><span class="ico">📋</span><h2>Test Plan</h2><span class="badge">Step 1</span></div>
+    <div class="card-head"><span class="ico">📋</span><h2>Step 1 — Test Plan</h2><span class="badge">Step 1</span></div>
     <div class="card-body">
       <div class="tip"><strong>Golden rule:</strong> Don't explain your prototype. Let users interact with it and observe — then ask questions after.</div>
       <div class="field"><label>Who are you testing with? <span class="sub">Name / profile</span></label><input type="text" id="t_tester" placeholder="e.g. Mr Tan, 68, retired teacher…"></div>
       <div class="field"><label>What task will you ask them to do?</label><textarea id="t_task" placeholder="e.g. 'Imagine you are at a food court. Use this to pay for your meal.'"></textarea></div>
-      <div class="field"><label>What 3 questions will you ask after?</label><textarea id="t_questions" placeholder="1. What was confusing?\n2. What worked well?\n3. What would you change?"></textarea></div>
     </div>
   </div>
 
-  <div class="divider">Step 2</div>
+  <div class="divider">Step 2 — Choose your testing method</div>
 
-  <div class="card">
-    <div class="card-head"><span class="ico">👁️</span><h2>Observation Notes</h2><span class="badge">Step 2</span></div>
-    <div class="card-body">
-      <div class="grid-2">
-        <div class="field"><label>What did you observe? <span class="sub">Body language, actions</span></label><textarea class="tall" id="t_observe" placeholder="e.g. Hesitated at the QR code, leaned in to read the text…"></textarea></div>
-        <div class="field"><label>What did they say? <span class="sub">Quotes</span></label><textarea class="tall" id="t_said" placeholder="e.g. 'What does this button do?' 'Oh! That's simple!'"></textarea></div>
+  <!-- METHOD CHOOSER -->
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;">
+    <p style="font-size:13px;color:var(--mid);margin-bottom:12px;">Select the method that best fits your situation. You can use more than one.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <button class="test-opt-btn active" id="test-btn-t1" onclick="toggleTestOpt('t1')">
+        <span style="font-size:18px;">➕</span>
+        <strong>T1</strong>
+        <span>Feedback Capture Grid</span>
+        <span style="font-size:10px;opacity:.7;">When you want structured, multi-angle feedback from one session</span>
+      </button>
+      <button class="test-opt-btn" id="test-btn-t2" onclick="toggleTestOpt('t2')">
+        <span style="font-size:18px;">💬</span>
+        <strong>T2</strong>
+        <span>I Like, I Wish, What If</span>
+        <span style="font-size:10px;opacity:.7;">When you want quick, forward-looking feedback — less confrontational</span>
+      </button>
+      <button class="test-opt-btn" id="test-btn-t3" onclick="toggleTestOpt('t3')">
+        <span style="font-size:18px;">👤</span>
+        <strong>T3</strong>
+        <span>Testing with Users</span>
+        <span style="font-size:10px;opacity:.7;">When you can observe a real user interacting with your prototype</span>
+      </button>
+    </div>
+    <div style="margin-top:12px;background:var(--mist);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--mid);line-height:1.6;">
+      <strong>How to choose:</strong> Use <strong>T1</strong> after a demo or presentation to capture all types of feedback at once. Use <strong>T2</strong> for quick peer reviews or when testers are shy. Use <strong>T3</strong> when you can sit with your user and watch them use your prototype in real time.
+    </div>
+  </div>
+
+  <!-- T1: FEEDBACK CAPTURE GRID -->
+  <div id="test-t1" class="test-opt-section">
+    <div class="card" style="border-left:4px solid var(--teal);">
+      <div class="card-head"><span class="ico">➕</span><h2>T1 — Feedback Capture Grid</h2><span class="badge" style="background:var(--teal-light);color:var(--teal);">Structured feedback</span></div>
+      <div class="card-body">
+        <div class="tip">Observe and listen. Don't defend your idea — just capture what happens. Fill in what testers say and do across all four quadrants.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:#f0fff4;border:1.5px solid #86efac;border-radius:12px;padding:14px;">
+            <div style="font-weight:700;font-size:13px;color:#166534;margin-bottom:8px;">✅ What worked?</div>
+            <div style="font-size:11.5px;color:#166534;margin-bottom:8px;opacity:.8;">List things the user liked or found intuitive…</div>
+            <textarea id="t1_worked" style="background:white;border-color:#86efac;min-height:80px;" placeholder="e.g. They immediately knew what the button was for…"></textarea>
+          </div>
+          <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:14px;">
+            <div style="font-weight:700;font-size:13px;color:#92400e;margin-bottom:8px;">△ Delta (Changes)</div>
+            <div style="font-size:11.5px;color:#92400e;margin-bottom:8px;opacity:.8;">What didn't work? What would they change?</div>
+            <textarea id="t1_delta" style="background:white;border-color:#fcd34d;min-height:80px;" placeholder="e.g. The text was too small to read quickly…"></textarea>
+          </div>
+          <div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:12px;padding:14px;">
+            <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:8px;">❓ Questions Raised</div>
+            <div style="font-size:11.5px;color:#1e40af;margin-bottom:8px;opacity:.8;">What parts were confusing? What did they ask?</div>
+            <textarea id="t1_questions" style="background:white;border-color:#93c5fd;min-height:80px;" placeholder="e.g. They asked: what happens if I press the wrong button?…"></textarea>
+          </div>
+          <div style="background:#faf5ff;border:1.5px solid #d8b4fe;border-radius:12px;padding:14px;">
+            <div style="font-weight:700;font-size:13px;color:#6b21a8;margin-bottom:8px;">💡 New Ideas</div>
+            <div style="font-size:11.5px;color:#6b21a8;margin-bottom:8px;opacity:.8;">What new sparks or suggestions came up?</div>
+            <textarea id="t1_ideas" style="background:white;border-color:#d8b4fe;min-height:80px;" placeholder="e.g. They suggested adding a voice guide option…"></textarea>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="divider">Step 3</div>
-
-  <div class="card">
-    <div class="card-head"><span class="ico">📊</span><h2>Feedback Analysis</h2><span class="badge">Step 3</span></div>
-    <div class="card-body">
-      <div class="grid-2">
-        <div class="field">
-          <label style="color:var(--teal);">✅ What worked well</label>
-          <textarea id="t_worked" placeholder="What should you keep in the next version?"></textarea>
-        </div>
-        <div class="field">
-          <label style="color:var(--maroon);">❌ What didn't work</label>
-          <textarea id="t_didnt" placeholder="What confused or frustrated them?"></textarea>
+  <!-- T2: I LIKE I WISH WHAT IF -->
+  <div id="test-t2" class="test-opt-section" style="display:none;">
+    <div class="card" style="border-left:4px solid var(--gold);">
+      <div class="card-head"><span class="ico">💬</span><h2>T2 — I Like, I Wish, What If</h2><span class="badge" style="background:var(--gold-light);color:var(--gold);">Quick peer review</span></div>
+      <div class="card-body">
+        <div class="tip">Use this for a quick, structured review. Each tester completes the three sentence starters. It's forward-looking and less confrontational than open criticism.</div>
+        <div style="display:flex;flex-direction:column;gap:0;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;">
+          <div style="display:flex;align-items:stretch;">
+            <div style="width:5px;background:#22c55e;flex-shrink:0;"></div>
+            <div style="padding:14px 16px;flex:1;">
+              <div style="font-size:13px;font-weight:700;color:#166534;margin-bottom:6px;">😊 I Like (Praise)</div>
+              <textarea id="t2_like" style="min-height:60px;" placeholder="I like the way…"></textarea>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);display:flex;align-items:stretch;">
+            <div style="width:5px;background:#eab308;flex-shrink:0;"></div>
+            <div style="padding:14px 16px;flex:1;">
+              <div style="font-size:13px;font-weight:700;color:#854d0e;margin-bottom:6px;">🔧 I Wish (Polish)</div>
+              <textarea id="t2_wish" style="min-height:60px;" placeholder="I wish it was easier to…"></textarea>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);display:flex;align-items:stretch;">
+            <div style="width:5px;background:#3b82f6;flex-shrink:0;"></div>
+            <div style="padding:14px 16px;flex:1;">
+              <div style="font-size:13px;font-weight:700;color:#1e40af;margin-bottom:6px;">🔮 What If (Ponder)</div>
+              <textarea id="t2_whatif" style="min-height:60px;" placeholder="What if we tried to…"></textarea>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="field"><label>What surprised you most?</label><textarea id="t_surprise" placeholder="The unexpected finding that changes your thinking…"></textarea></div>
+    </div>
+  </div>
+
+  <!-- T3: TESTING WITH USERS -->
+  <div id="test-t3" class="test-opt-section" style="display:none;">
+    <div class="card" style="border-left:4px solid var(--navy);">
+      <div class="card-head"><span class="ico">👤</span><h2>T3 — Testing with Users</h2><span class="badge" style="background:#f0f0ff;color:var(--navy);">Real user observation</span></div>
+      <div class="card-body">
+        <div class="tip">Sit with your user as they interact with the prototype. Don't explain — observe. Ask open-ended questions only after they've finished.</div>
+        <div class="grid-2">
+          <div class="field"><label>What did you observe? <span class="sub">Body language, actions</span></label><textarea class="tall" id="t_observe" placeholder="e.g. Hesitated at the QR code, leaned in to read the text…"></textarea></div>
+          <div class="field"><label>What did they say? <span class="sub">Direct quotes</span></label><textarea class="tall" id="t_said" placeholder="e.g. 'What does this button do?' 'Oh! That's simple!'"></textarea></div>
+        </div>
+        <div class="grid-2" style="margin-top:10px;">
+          <div class="field"><label style="color:var(--teal);">✅ What worked well</label><textarea id="t_worked" placeholder="What should you keep?"></textarea></div>
+          <div class="field"><label style="color:var(--maroon);">❌ What didn't work</label><textarea id="t_didnt" placeholder="What confused or frustrated them?"></textarea></div>
+        </div>
+        <div class="field" style="margin-top:10px;"><label>What surprised you most?</label><textarea id="t_surprise" placeholder="The unexpected finding that changes your thinking…"></textarea></div>
+      </div>
     </div>
   </div>
 
@@ -1310,7 +1399,7 @@ const allFields = {
   define: ['d_user','d_need','d_because','d_hmw','d_hmw_why','d_why1','d_why2','d_why3','d_why4','d_why5','d_insight'],
   ideate: ['id_1','id_2','id_3','id_4','id_5','id_6','id_7','id_8','id_9','id_scamper_idea','id_s','id_c','id_ad','id_m','id_p','id_el','id_r','id_best'],
   prototype: ['p_idea','p_question','p_type','p_materials','p_roles','p_steps','p_assumptions','p_describe','p_predict'],
-  test: ['t_tester','t_task','t_questions','t_observe','t_said','t_worked','t_didnt','t_surprise','t_next','t_goback'],
+  test: ['t_tester','t_task','t1_worked','t1_delta','t1_questions','t1_ideas','t2_like','t2_wish','t2_whatif','t_observe','t_said','t_worked','t_didnt','t_surprise','t_next','t_goback'],
   proposal: ['pr_title','pr_members','pr_mentor','pr_type','pr_empathy','pr_define','pr_ideate','pr_prototype','pr_test']
 };
 
@@ -1373,7 +1462,7 @@ const modeConfig = [
   { key:'define',    label:'🎯 Define',    fields: ['d_user','d_need','d_because','d_hmw','d_why1','d_insight'] },
   { key:'ideate',    label:'💡 Ideate',    fields: ['id_1','id_2','id_3','id_scamper_idea','id_best'] },
   { key:'prototype', label:'🛠️ Prototype', fields: ['p_idea','p_question','p_describe'] },
-  { key:'test',      label:'🧪 Test',      fields: ['t_tester','t_task','t_worked','t_didnt','t_next'] }
+  { key:'test',      label:'🧪 Test',      fields: ['t_tester','t_task','t1_worked','t2_like','t_observe','t_worked','t_next'] }
 ];
 
 function isSectionFilled(section) {
@@ -2055,6 +2144,24 @@ window.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(f.id);
     if (el && el.value) updateCharCount(el, f.countId, f.min);
   });
+});
+
+
+// ── TEST METHOD TOGGLE ────────────────────────
+const testMethods = ['t1','t2','t3'];
+function toggleTestOpt(method) {
+  testMethods.forEach(m => {
+    const sec = document.getElementById('test-' + m);
+    const btn = document.getElementById('test-btn-' + m);
+    if (sec) sec.style.display = m === method ? 'block' : 'none';
+    if (btn) btn.classList.toggle('active', m === method);
+  });
+  localStorage.setItem('vsdt_test_method', method);
+}
+// restore last method on load
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('vsdt_test_method');
+  if (saved) toggleTestOpt(saved);
 });
 
 </script>
