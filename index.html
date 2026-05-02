@@ -240,6 +240,29 @@ textarea.short{min-height:58px;}
   .nav-logo{display:none;}
   .hmw-parts{flex-direction:column;}
 }
+
+/* ── EMPATHY OPTION BUTTONS ── */
+.empathy-opt-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 10px;border-radius:12px;border:2px solid var(--border);background:var(--mist);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mid);transition:.2s;width:100%;}
+.empathy-opt-btn:hover{border-color:var(--maroon-mid);background:var(--maroon-light);}
+.empathy-opt-btn.active{border-color:var(--maroon);background:var(--maroon-light);color:var(--maroon);}
+
+/* ── STICKY NOTES ── */
+.sticky{position:relative;background:#fef9c3;border:1.5px solid #e6d700;border-radius:8px;padding:10px 32px 10px 12px;font-size:13px;color:var(--ink);line-height:1.4;cursor:grab;min-width:120px;max-width:180px;word-break:break-word;box-shadow:2px 3px 8px rgba(0,0,0,0.08);transition:transform .15s;}
+.sticky:hover{transform:translateY(-2px);}
+.sticky.dragging{opacity:.5;cursor:grabbing;}
+.sticky-votes{position:absolute;top:6px;right:6px;font-size:11px;font-weight:700;color:var(--gold);}
+.sticky-del{position:absolute;bottom:5px;right:6px;background:none;border:none;font-size:12px;color:#ccc;cursor:pointer;padding:0;line-height:1;}
+.sticky-del:hover{color:var(--maroon);}
+.sticky.voted{background:#fff9e0;border-color:var(--gold);}
+
+/* ── MATRIX ── */
+.matrix-cell{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px;min-height:130px;transition:background .2s;}
+.matrix-cell.drag-over{background:var(--maroon-light);border-color:var(--maroon-mid);}
+.matrix-label{font-size:12px;font-weight:700;margin-bottom:2px;}
+.matrix-sub{font-size:10px;color:#aaa;margin-bottom:8px;}
+.matrix-ideas{display:flex;flex-wrap:wrap;gap:6px;}
+.matrix-sticky{background:#fef9c3;border:1.5px solid #e6d700;border-radius:6px;padding:6px 10px;font-size:11.5px;color:var(--ink);cursor:grab;max-width:130px;word-break:break-word;box-shadow:1px 2px 4px rgba(0,0,0,0.07);}
+.matrix-sticky:hover{transform:translateY(-1px);}
 </style>
 </head>
 <body>
@@ -398,37 +421,57 @@ textarea.short{min-height:58px;}
     </div>
   </div>
 
-  <div class="divider">Step 1</div>
+  <div class="divider">Step 1 — Choose your empathy tool</div>
 
-  <!-- INTERVIEW -->
-  <div class="card">
-    <div class="card-head"><span class="ico">🎤</span><h2>The Interview</h2><span class="badge">Step 1</span></div>
-    <div class="card-body">
-      <div class="tip"><strong>Format:</strong> One-on-one, in-person (to see body language) · <strong>Tip:</strong> Ask open-ended questions like "Tell me more about a time when…"</div>
-      <div class="field"><label>Raw interview responses & interesting quotes</label><textarea class="tall" id="e_interview" placeholder="Type raw responses and quotes here…"></textarea></div>
+  <!-- OPTION CHOOSER -->
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;">
+    <p style="font-size:13px;color:var(--mid);margin-bottom:12px;">Use <strong>one or both</strong> depending on your situation. Most of the time, interviewing gives richer insights. Use observation when you cannot get direct access to your user.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button class="empathy-opt-btn active" id="opt-btn-interview" onclick="toggleEmpathyOpt('interview')">
+        <span style="font-size:20px;">🎤</span>
+        <strong>Option A</strong>
+        <span>Interview</span>
+        <span style="font-size:11px;opacity:.7;">I can speak to my user</span>
+      </button>
+      <button class="empathy-opt-btn" id="opt-btn-aeiou" onclick="toggleEmpathyOpt('aeiou')">
+        <span style="font-size:20px;">👀</span>
+        <strong>Option B</strong>
+        <span>Observation (AEIOU)</span>
+        <span style="font-size:11px;opacity:.7;">I can only watch my user</span>
+      </button>
     </div>
   </div>
 
-  <div class="callout"><span class="ico">🎨</span><div class="callout-body"><h3>Subject Spotlight: AEP Examples</h3><p>See how Art students apply interview techniques to uncover deep stories.</p><button class="btn-sm" onclick="show('spotlight')">View Examples →</button></div></div>
+  <!-- OPTION A: INTERVIEW -->
+  <div id="empathy-interview" class="empathy-opt-section">
+    <div class="card" style="border-left:4px solid var(--maroon);">
+      <div class="card-head"><span class="ico">🎤</span><h2>Option A — The Interview</h2><span class="badge" style="background:#e8f5f3;color:var(--teal);">Best for most cases</span></div>
+      <div class="card-body">
+        <div class="tip"><strong>Format:</strong> One-on-one, in-person to see body language · <strong>Tip:</strong> Ask open-ended questions like "Tell me about a time when…" and follow with "Why did you feel that way?"</div>
+        <div class="field"><label>Raw interview responses &amp; interesting quotes</label><textarea class="tall" id="e_interview" placeholder="Type raw responses and quotes here…"></textarea></div>
+      </div>
+    </div>
+    <div class="callout"><span class="ico">🎨</span><div class="callout-body"><h3>Subject Spotlight: AEP Examples</h3><p>See how Art students apply interview techniques to uncover deep personal stories.</p><button class="btn-sm" onclick="show('spotlight')">View Examples →</button></div></div>
+  </div>
 
-  <div class="divider">Step 2</div>
-
-  <!-- AEIOU -->
-  <div class="card">
-    <div class="card-head"><span class="ico">👀</span><h2>AEIOU Observation</h2><span class="badge">Step 2</span></div>
-    <div class="card-body">
-      <div class="tip">Observe your user in their natural context. Record what you notice in each category.</div>
-      <div class="aeiou-grid">
-        <div class="aeiou-cell"><div class="aeiou-letter">A</div><div class="aeiou-sub">Activities: What are they doing?</div><textarea id="e_a" placeholder="e.g. Tapping phone repeatedly…"></textarea></div>
-        <div class="aeiou-cell"><div class="aeiou-letter">E</div><div class="aeiou-sub">Environments: Atmosphere & noise</div><textarea id="e_e" placeholder="e.g. Crowded food court…"></textarea></div>
-        <div class="aeiou-cell"><div class="aeiou-letter">I</div><div class="aeiou-sub">Interactions: People & objects</div><textarea id="e_i" placeholder="e.g. Asked cashier twice…"></textarea></div>
-        <div class="aeiou-cell"><div class="aeiou-letter">O</div><div class="aeiou-sub">Objects: Tools being used</div><textarea id="e_o" placeholder="e.g. Phone, cash card…"></textarea></div>
-        <div class="aeiou-cell full"><div class="aeiou-letter">U</div><div class="aeiou-sub">Users: Who they are</div><textarea id="e_u" placeholder="e.g. 72-year-old retiree, lives alone in HDB…"></textarea></div>
+  <!-- OPTION B: AEIOU -->
+  <div id="empathy-aeiou" class="empathy-opt-section" style="display:none;">
+    <div class="card" style="border-left:4px solid var(--navy);">
+      <div class="card-head"><span class="ico">👀</span><h2>Option B — AEIOU Observation</h2><span class="badge" style="background:#f0f0ff;color:var(--navy);">When you cannot interview</span></div>
+      <div class="card-body">
+        <div class="tip">Observe your user in their natural context without interrupting them. Only write what you actually see — avoid assumptions.</div>
+        <div class="aeiou-grid">
+          <div class="aeiou-cell"><div class="aeiou-letter">A</div><div class="aeiou-sub">Activities: What are they doing?</div><textarea id="e_a" placeholder="e.g. Tapping phone repeatedly…"></textarea></div>
+          <div class="aeiou-cell"><div class="aeiou-letter">E</div><div class="aeiou-sub">Environments: Atmosphere &amp; noise</div><textarea id="e_e" placeholder="e.g. Crowded food court…"></textarea></div>
+          <div class="aeiou-cell"><div class="aeiou-letter">I</div><div class="aeiou-sub">Interactions: People &amp; objects</div><textarea id="e_i" placeholder="e.g. Asked cashier twice…"></textarea></div>
+          <div class="aeiou-cell"><div class="aeiou-letter">O</div><div class="aeiou-sub">Objects: Tools being used</div><textarea id="e_o" placeholder="e.g. Phone, cash card…"></textarea></div>
+          <div class="aeiou-cell full"><div class="aeiou-letter">U</div><div class="aeiou-sub">Users: Who they are</div><textarea id="e_u" placeholder="e.g. 72-year-old retiree, lives alone in HDB…"></textarea></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="divider">Step 3</div>
+  <div class="divider">Step 2</div>
 
   <!-- EMPATHY MAP -->
   <div class="card">
@@ -532,40 +575,105 @@ textarea.short{min-height:58px;}
     <div style="margin-top:20px;"><div class="prog-label">Your progress</div><div class="prog-track"><div class="prog-fill" id="ide-prog"></div></div></div>
   </div>
 
+  <!-- STEP 1: BRAINSTORM -->
   <div class="card">
-    <div class="card-head"><span class="ico">⚡</span><h2>Brain Dump — 9 Ideas in 9 Minutes</h2><span class="badge">Step 1</span></div>
+    <div class="card-head"><span class="ico">🌩️</span><h2>Step 1 — Brainstorm</h2><span class="badge">Step 1</span></div>
     <div class="card-body">
-      <div class="tip">No filtering. No judging. Wild ideas welcome — they often lead to the best solutions. Aim for at least 9.</div>
-      <div class="idea-grid">
-        <div class="idea-card"><div class="idea-num">1</div><textarea id="id_1" placeholder="Any idea…"></textarea></div>
-        <div class="idea-card"><div class="idea-num">2</div><textarea id="id_2" placeholder="Wilder…"></textarea></div>
-        <div class="idea-card"><div class="idea-num">3</div><textarea id="id_3" placeholder="Keep going…"></textarea></div>
-        <div class="idea-card"><div class="idea-num">4</div><textarea id="id_4" placeholder=""></textarea></div>
-        <div class="idea-card"><div class="idea-num">5</div><textarea id="id_5" placeholder=""></textarea></div>
-        <div class="idea-card"><div class="idea-num">6</div><textarea id="id_6" placeholder=""></textarea></div>
-        <div class="idea-card"><div class="idea-num">7</div><textarea id="id_7" placeholder="Almost there…"></textarea></div>
-        <div class="idea-card"><div class="idea-num">8</div><textarea id="id_8" placeholder=""></textarea></div>
-        <div class="idea-card"><div class="idea-num">9</div><textarea id="id_9" placeholder="🎉 Last one!"></textarea></div>
+      <div class="tip">No filtering. No judging. Type an idea and press <strong>Enter</strong> or click <strong>+ Add Idea</strong> to add it as a sticky note. Aim for quantity — wild ideas welcome.</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <input type="text" id="idea-input" placeholder="Type an idea and press Enter…" onkeydown="if(event.key==='Enter'){event.preventDefault();addIdea();}" style="flex:1;">
+        <button onclick="addIdea()" style="background:var(--gold);color:white;border:none;border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">+ Add Idea</button>
       </div>
+      <div id="sticky-board" style="display:flex;flex-wrap:wrap;gap:10px;min-height:80px;"></div>
+      <div id="no-ideas-hint" style="font-size:12.5px;color:#ccc;text-align:center;padding:20px 0;">Your ideas will appear here as sticky notes</div>
     </div>
   </div>
 
-  <div class="divider">Step 2</div>
+  <div class="divider">Step 2 — Dot Voting</div>
 
-  <!-- SCAMPER -->
+  <!-- STEP 2: DOT VOTING -->
   <div class="card">
-    <div class="card-head"><span class="ico">🔀</span><h2>SCAMPER Technique</h2><span class="badge">Step 2</span></div>
+    <div class="card-head"><span class="ico">🔵</span><h2>Step 2 — Dot Voting</h2><span class="badge">Step 2</span></div>
     <div class="card-body">
-      <div class="tip">SCAMPER helps you push your best idea further. Pick your strongest idea from Step 1 and apply each lens.</div>
-      <div class="field" style="margin-bottom:14px;"><label>Which idea are you SCAMPER-ing?</label><input type="text" id="id_scamper_idea" placeholder="e.g. A buddy system app that pairs elderly with volunteers…"></div>
-      <div class="scamper-grid">
-        <div class="scamper-item"><div class="scamper-letter">S</div><div class="scamper-word">Substitute</div><textarea id="id_s" placeholder="What can you substitute?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">C</div><div class="scamper-word">Combine</div><textarea id="id_c" placeholder="What can you combine?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">A</div><div class="scamper-word">Adapt</div><textarea id="id_ad" placeholder="What can you adapt?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">M</div><div class="scamper-word">Modify</div><textarea id="id_m" placeholder="What can you modify?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">P</div><div class="scamper-word">Put to other use</div><textarea id="id_p" placeholder="Other uses?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">E</div><div class="scamper-word">Eliminate</div><textarea id="id_el" placeholder="What to remove?"></textarea></div>
-        <div class="scamper-item"><div class="scamper-letter">R</div><div class="scamper-word">Reverse</div><textarea id="id_r" placeholder="What if reversed?"></textarea></div>
+      <div class="tip">Pass the screen around. Each person taps on their favourite ideas to add a dot 🔵. The ideas with the most dots rise to the top. <strong>Each person gets 3 dots</strong> — use them wisely.</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <div style="font-size:13px;color:var(--mid);">Dots remaining for this voter:</div>
+        <div id="dots-remaining" style="font-family:'Fraunces',serif;font-size:22px;color:var(--gold);">🔵🔵🔵</div>
+        <button onclick="resetVoter()" style="background:var(--mist);border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--mid);">New Voter (reset dots)</button>
+      </div>
+      <div id="voting-board" style="display:flex;flex-wrap:wrap;gap:10px;min-height:60px;"></div>
+      <div id="no-vote-hint" style="font-size:12.5px;color:#ccc;text-align:center;padding:16px 0;">Add ideas in Step 1 first</div>
+    </div>
+  </div>
+
+  <div class="divider">Step 3 — Effort-Impact Matrix</div>
+
+  <!-- STEP 3: EFFORT-IMPACT MATRIX -->
+  <div class="card">
+    <div class="card-head"><span class="ico">📊</span><h2>Step 3 — Effort-Impact Matrix</h2><span class="badge">Step 3</span></div>
+    <div class="card-body">
+      <div class="tip">Drag your top ideas (especially highly-voted ones) into the matrix below. Ideas in the <strong>Low Effort / High Impact</strong> quadrant are your best starting point to prototype.</div>
+      <div style="position:relative;margin-bottom:8px;">
+        <!-- Axis labels -->
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:600;color:#aaa;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;padding:0 2px;">
+          <span>← Low Effort</span><span>High Effort →</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;position:relative;">
+          <!-- High Impact row label -->
+          <div style="position:absolute;left:-42px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:10px;font-weight:600;color:#aaa;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;">High Impact ↑</div>
+          <div class="matrix-cell" id="matrix-q1" data-q="q1" ondragover="event.preventDefault()" ondrop="dropIdea(event,'q1')">
+            <div class="matrix-label" style="color:var(--teal);">⭐ Quick Wins</div>
+            <div class="matrix-sub">Low effort · High impact</div>
+            <div class="matrix-ideas" id="mq1"></div>
+          </div>
+          <div class="matrix-cell" id="matrix-q2" data-q="q2" ondragover="event.preventDefault()" ondrop="dropIdea(event,'q2')">
+            <div class="matrix-label" style="color:var(--gold);">🎯 Big Bets</div>
+            <div class="matrix-sub">High effort · High impact</div>
+            <div class="matrix-ideas" id="mq2"></div>
+          </div>
+          <div style="position:absolute;left:-42px;bottom:50%;transform:translateY(50%) rotate(-90deg);font-size:10px;font-weight:600;color:#aaa;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;">Low Impact ↓</div>
+          <div class="matrix-cell" id="matrix-q3" data-q="q3" ondragover="event.preventDefault()" ondrop="dropIdea(event,'q3')">
+            <div class="matrix-label" style="color:#aaa;">🗑 Fill-ins</div>
+            <div class="matrix-sub">Low effort · Low impact</div>
+            <div class="matrix-ideas" id="mq3"></div>
+          </div>
+          <div class="matrix-cell" id="matrix-q4" data-q="q4" ondragover="event.preventDefault()" ondrop="dropIdea(event,'q4')">
+            <div class="matrix-label" style="color:var(--maroon);">⚠️ Time Sinks</div>
+            <div class="matrix-sub">High effort · Low impact</div>
+            <div class="matrix-ideas" id="mq4"></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11.5px;color:#bbb;margin-top:8px;">💡 Drag ideas from the voting board above into the quadrants. Ideas can also be dragged between quadrants.</p>
+    </div>
+  </div>
+
+  <div class="divider">Alternative Tool</div>
+
+  <!-- SCAMPER - ALTERNATIVE -->
+  <div class="callout" style="border-color:#8ecfc8;background:var(--teal-light);">
+    <span class="ico">🔀</span>
+    <div class="callout-body">
+      <h3 style="color:var(--teal);">Alternative: SCAMPER</h3>
+      <p style="color:#0f5248;">Already have an existing product or solution you want to innovate on? Use SCAMPER to push it further instead of brainstorming from scratch.</p>
+      <button class="btn-sm" onclick="document.getElementById('scamper-section').style.display=document.getElementById('scamper-section').style.display==='none'?'block':'none'">Show / Hide SCAMPER →</button>
+    </div>
+  </div>
+
+  <div id="scamper-section" style="display:none;">
+    <div class="card" style="border-left:4px solid var(--teal);">
+      <div class="card-head"><span class="ico">🔀</span><h2>SCAMPER</h2></div>
+      <div class="card-body">
+        <div class="field" style="margin-bottom:14px;"><label>Which existing product or solution are you innovating on?</label><input type="text" id="id_scamper_idea" placeholder="e.g. An existing payment app, a physical wallet, a helpdesk service…"></div>
+        <div class="scamper-grid">
+          <div class="scamper-item"><div class="scamper-letter">S</div><div class="scamper-word">Substitute</div><textarea id="id_s" placeholder="What can you substitute?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">C</div><div class="scamper-word">Combine</div><textarea id="id_c" placeholder="What can you combine?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">A</div><div class="scamper-word">Adapt</div><textarea id="id_ad" placeholder="What can you adapt?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">M</div><div class="scamper-word">Modify</div><textarea id="id_m" placeholder="What can you modify?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">P</div><div class="scamper-word">Put to other use</div><textarea id="id_p" placeholder="Other uses?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">E</div><div class="scamper-word">Eliminate</div><textarea id="id_el" placeholder="What to remove?"></textarea></div>
+          <div class="scamper-item"><div class="scamper-letter">R</div><div class="scamper-word">Reverse</div><textarea id="id_r" placeholder="What if reversed?"></textarea></div>
+        </div>
       </div>
     </div>
   </div>
@@ -575,7 +683,7 @@ textarea.short{min-height:58px;}
   <div class="card insight-box">
     <div class="card-head"><span class="ico">⭐</span><h2>Our Best Idea</h2></div>
     <div class="card-body">
-      <div class="field"><label>Which idea will you prototype? Why this one?</label><textarea id="id_best" placeholder="Describe your chosen idea and explain why it best addresses your HMW question…"></textarea></div>
+      <div class="field"><label>Which idea will you prototype? Why this one?</label><textarea id="id_best" placeholder="Describe your chosen idea — ideally from the Quick Wins quadrant — and explain why it best addresses your HMW question…"></textarea></div>
     </div>
   </div>
 
@@ -1647,6 +1755,153 @@ function dlPDF(section) {
   doc.save(fname + '.pdf');
   toast('✓ PDF downloaded!');
 }
+
+// ── EMPATHY OPTION TOGGLE ──────────────────────
+function toggleEmpathyOpt(opt) {
+  const interview = document.getElementById('empathy-interview');
+  const aeiou = document.getElementById('empathy-aeiou');
+  const btnI = document.getElementById('opt-btn-interview');
+  const btnA = document.getElementById('opt-btn-aeiou');
+  if (opt === 'interview') {
+    interview.style.display = 'block'; aeiou.style.display = 'none';
+    btnI.classList.add('active'); btnA.classList.remove('active');
+  } else {
+    aeiou.style.display = 'block'; interview.style.display = 'none';
+    btnA.classList.add('active'); btnI.classList.remove('active');
+  }
+  // allow both: if clicking active btn show both
+}
+
+// ── BRAINSTORM & DOT VOTING ───────────────────
+let ideas = []; // {id, text, dots}
+let voterDotsLeft = 3;
+
+function loadIdeas() {
+  const saved = localStorage.getItem('vsdt_ideas');
+  if (saved) ideas = JSON.parse(saved);
+}
+function saveIdeas() {
+  localStorage.setItem('vsdt_ideas', JSON.stringify(ideas));
+}
+function addIdea() {
+  const input = document.getElementById('idea-input');
+  const text = input.value.trim();
+  if (!text) return;
+  ideas.push({ id: Date.now(), text, dots: 0 });
+  input.value = '';
+  saveIdeas();
+  renderBoards();
+  input.focus();
+}
+function removeIdea(id) {
+  ideas = ideas.filter(i => i.id !== id);
+  saveIdeas();
+  renderBoards();
+  renderMatrix();
+}
+function addDot(id) {
+  if (voterDotsLeft <= 0) { alert('No dots left! Click "New Voter" to reset for the next person.'); return; }
+  const idea = ideas.find(i => i.id === id);
+  if (idea) { idea.dots++; voterDotsLeft--; saveIdeas(); renderBoards(); updateDotsDisplay(); }
+}
+function resetVoter() {
+  voterDotsLeft = 3;
+  updateDotsDisplay();
+}
+function updateDotsDisplay() {
+  const el = document.getElementById('dots-remaining');
+  if (!el) return;
+  el.textContent = '🔵'.repeat(voterDotsLeft) + '⚪'.repeat(3 - voterDotsLeft);
+}
+function renderBoards() {
+  const board = document.getElementById('sticky-board');
+  const vboard = document.getElementById('voting-board');
+  const hint = document.getElementById('no-ideas-hint');
+  const vhint = document.getElementById('no-vote-hint');
+  if (!board) return;
+  board.innerHTML = '';
+  if (vboard) vboard.innerHTML = '';
+  if (ideas.length === 0) {
+    if (hint) hint.style.display = 'block';
+    if (vhint) vhint.style.display = 'block';
+    return;
+  }
+  if (hint) hint.style.display = 'none';
+  if (vhint) vhint.style.display = 'none';
+  const sorted = [...ideas].sort((a,b) => b.dots - a.dots);
+  sorted.forEach(idea => {
+    // Brainstorm board sticky
+    const s = document.createElement('div');
+    s.className = 'sticky' + (idea.dots > 0 ? ' voted' : '');
+    s.draggable = true;
+    s.dataset.id = idea.id;
+    s.innerHTML = `<span>${idea.text}</span><span class="sticky-votes">${idea.dots > 0 ? '🔵'.repeat(Math.min(idea.dots,5)) : ''}</span><button class="sticky-del" onclick="removeIdea(${idea.id})">✕</button>`;
+    s.addEventListener('dragstart', e => { e.dataTransfer.setData('ideaId', idea.id); s.classList.add('dragging'); });
+    s.addEventListener('dragend', () => s.classList.remove('dragging'));
+    board.appendChild(s);
+    // Voting board
+    if (vboard) {
+      const v = document.createElement('div');
+      v.className = 'sticky' + (idea.dots > 0 ? ' voted' : '');
+      v.style.cursor = 'pointer';
+      v.innerHTML = `<span>${idea.text}</span><span class="sticky-votes">${idea.dots > 0 ? '🔵'.repeat(Math.min(idea.dots,5)) + ' ' + idea.dots : 'Tap to vote'}</span>`;
+      v.onclick = () => addDot(idea.id);
+      vboard.appendChild(v);
+    }
+  });
+}
+
+// ── EFFORT-IMPACT MATRIX ──────────────────────
+let matrixData = { q1:[], q2:[], q3:[], q4:[] };
+
+function loadMatrix() {
+  const saved = localStorage.getItem('vsdt_matrix');
+  if (saved) matrixData = JSON.parse(saved);
+}
+function saveMatrix() {
+  localStorage.setItem('vsdt_matrix', JSON.stringify(matrixData));
+}
+function dropIdea(event, quadrant) {
+  event.preventDefault();
+  const id = parseInt(event.dataTransfer.getData('ideaId'));
+  const idea = ideas.find(i => i.id === id);
+  if (!idea) return;
+  // remove from other quadrants
+  Object.keys(matrixData).forEach(q => { matrixData[q] = matrixData[q].filter(i => i.id !== id); });
+  matrixData[quadrant].push({ id: idea.id, text: idea.text });
+  saveMatrix();
+  renderMatrix();
+  document.querySelectorAll('.matrix-cell').forEach(c => c.classList.remove('drag-over'));
+}
+function renderMatrix() {
+  ['q1','q2','q3','q4'].forEach(q => {
+    const el = document.getElementById('m' + q);
+    if (!el) return;
+    el.innerHTML = '';
+    matrixData[q].forEach(idea => {
+      const chip = document.createElement('div');
+      chip.className = 'matrix-sticky';
+      chip.draggable = true;
+      chip.textContent = idea.text;
+      chip.addEventListener('dragstart', e => { e.dataTransfer.setData('ideaId', idea.id); });
+      el.appendChild(chip);
+    });
+  });
+  document.querySelectorAll('.matrix-cell').forEach(cell => {
+    cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('drag-over'); });
+    cell.addEventListener('dragleave', () => cell.classList.remove('drag-over'));
+  });
+}
+
+// Init ideate when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  loadIdeas();
+  loadMatrix();
+  renderBoards();
+  renderMatrix();
+  updateDotsDisplay();
+});
+
 </script>
 </body>
 </html>
