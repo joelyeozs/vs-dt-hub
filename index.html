@@ -360,6 +360,11 @@ textarea.short{min-height:58px;}
     </div>
   </div>
 
+  <!-- RESET -->
+  <div style="text-align:center;margin-bottom:18px;">
+    <button onclick="resetAll()" style="background:none;border:1.5px solid var(--border);border-radius:99px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:12.5px;color:#aaa;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--maroon)';this.style.color='var(--maroon)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#aaa'">🗑 Start New Project — Clear All Data</button>
+  </div>
+
   <!-- COACH -->
   <div class="coach-wrap">
     <div class="coach-title">🧠 Design Coach</div>
@@ -1466,6 +1471,13 @@ const modeConfig = [
 ];
 
 function isSectionFilled(section) {
+  // Ideate uses vsdt_ideas (sticky notes array) not standard fields
+  if (section === 'ideate') {
+    const raw = localStorage.getItem('vsdt_ideas');
+    if (!raw) return false;
+    const ideas = JSON.parse(raw);
+    return ideas.length >= 2;
+  }
   const raw = localStorage.getItem('vsdt_' + section);
   if (!raw) return false;
   const data = JSON.parse(raw);
@@ -1658,15 +1670,41 @@ function dlPortfolio() {
     }
     else if (m.key==='ideate') {
       modePageBreak('💡','Ideate','Mode 3 of 5',GOLD,'To generate a wide range of creative solutions — quantity before quality.');
-      secHead('⚡ Brain Dump — 9 Ideas',GOLD);
-      for(let i=1;i<=9;i+=2){ i<9?two(`Idea ${i}`,g(`id_${i}`),`Idea ${i+1}`,g(`id_${i+1}`)):field(`Idea ${i}`,g(`id_${i}`)); }
-      secHead('🔀 SCAMPER Analysis',TEAL);
-      field('Idea Being SCAMPER-ed',g('id_scamper_idea'));
-      two('S — Substitute',g('id_s'),'C — Combine',g('id_c'));
-      two('A — Adapt',g('id_ad'),'M — Modify',g('id_m'));
-      two('P — Put to Other Use',g('id_p'),'E — Eliminate',g('id_el'));
-      field('R — Reverse',g('id_r'));
-      insightBox('⭐ OUR BEST IDEA — Which idea will you prototype and why?',g('id_best'));
+      // Read ideas from sticky note store
+      const ideaStore = JSON.parse(localStorage.getItem('vsdt_ideas') || '[]');
+      const ideaData = JSON.parse(localStorage.getItem('vsdt_ideate') || '{}');
+      const matrixStore = JSON.parse(localStorage.getItem('vsdt_matrix') || '{"q1":[],"q2":[],"q3":[],"q4":[]}');
+      secHead('🌩 Brainstorm — Ideas',GOLD);
+      if (ideaStore.length === 0) {
+        field('Ideas generated', 'No ideas recorded');
+      } else {
+        // Sort by dots descending, render in pairs
+        const sorted = [...ideaStore].sort((a,b) => b.dots - a.dots);
+        for (let i=0; i<sorted.length; i+=2) {
+          const v1 = sorted[i] ? `${sorted[i].text}${sorted[i].dots > 0 ? ' ('+sorted[i].dots+' vote'+( sorted[i].dots>1?'s':'')+')' : ''}` : '—';
+          const v2 = sorted[i+1] ? `${sorted[i+1].text}${sorted[i+1].dots > 0 ? ' ('+sorted[i+1].dots+' vote'+( sorted[i+1].dots>1?'s':'')+')' : ''}` : null;
+          if (v2) two(`Idea ${i+1}`, v1, `Idea ${i+2}`, v2);
+          else field(`Idea ${i+1}`, v1);
+        }
+      }
+      // Effort-Impact Matrix
+      const hasMatrix = Object.values(matrixStore).some(q => q.length > 0);
+      if (hasMatrix) {
+        secHead('📊 Effort-Impact Matrix',[80,100,130]);
+        two('Quick Wins (Low Effort / High Impact)', matrixStore.q1.map(i=>i.text).join(', ')||'—', 'Big Bets (High Effort / High Impact)', matrixStore.q2.map(i=>i.text).join(', ')||'—');
+        two('Fill-ins (Low Effort / Low Impact)', matrixStore.q3.map(i=>i.text).join(', ')||'—', 'Time Sinks (High Effort / Low Impact)', matrixStore.q4.map(i=>i.text).join(', ')||'—');
+      }
+      // SCAMPER if used
+      const hasScamper = ideaData.id_scamper_idea && ideaData.id_scamper_idea.trim().length > 2;
+      if (hasScamper) {
+        secHead('🔀 SCAMPER Analysis',TEAL);
+        field('Idea Being SCAMPER-ed',ideaData.id_scamper_idea||'—');
+        two('S — Substitute',ideaData.id_s||'—','C — Combine',ideaData.id_c||'—');
+        two('A — Adapt',ideaData.id_ad||'—','M — Modify',ideaData.id_m||'—');
+        two('P — Put to Other Use',ideaData.id_p||'—','E — Eliminate',ideaData.id_el||'—');
+        field('R — Reverse',ideaData.id_r||'—');
+      }
+      insightBox('⭐ OUR BEST IDEA — Which idea will you prototype and why?',ideaData.id_best||'—');
     }
     else if (m.key==='prototype') {
       modePageBreak('🛠','Prototype','Mode 4 of 5',TEAL,'To build a quick, tangible representation of your idea — cheap enough to change, real enough to test.');
@@ -1849,23 +1887,44 @@ function dlPDF(section) {
     doc.text(ins, M+4, y+14); y += 36;
   }
   else if (section === 'ideate') {
-    secHead('⚡ Brain Dump — 9 Ideas', GOLD);
-    for (let i = 1; i <= 9; i += 2) {
-      if (i < 9) two(`Idea ${i}`, get(`id_${i}`), `Idea ${i+1}`, get(`id_${i+1}`));
-      else field(`Idea ${i}`, get(`id_${i}`));
+    const ideaStore = JSON.parse(localStorage.getItem('vsdt_ideas') || '[]');
+    const ideaData = JSON.parse(localStorage.getItem('vsdt_ideate') || '{}');
+    const matrixStore = JSON.parse(localStorage.getItem('vsdt_matrix') || '{"q1":[],"q2":[],"q3":[],"q4":[]}');
+    // Brainstorm ideas
+    secHead('🌩 Brainstorm — Ideas', GOLD);
+    if (ideaStore.length === 0) {
+      field('Ideas generated', 'No ideas recorded');
+    } else {
+      const sorted = [...ideaStore].sort((a,b) => b.dots - a.dots);
+      for (let i=0; i<sorted.length; i+=2) {
+        const v1 = sorted[i] ? `${sorted[i].text}${sorted[i].dots > 0 ? ' ('+sorted[i].dots+' vote'+(sorted[i].dots>1?'s':'')+')' : ''}` : '—';
+        const v2 = sorted[i+1] ? `${sorted[i+1].text}${sorted[i+1].dots > 0 ? ' ('+sorted[i+1].dots+' vote'+(sorted[i+1].dots>1?'s':'')+')' : ''}` : null;
+        if (v2) two(`Idea ${i+1}`, v1, `Idea ${i+2}`, v2);
+        else field(`Idea ${i+1}`, v1);
+      }
     }
-    secHead('🔀 SCAMPER Analysis', TEAL);
-    field('Idea Being SCAMPER-ed', get('id_scamper_idea'));
-    two('S — Substitute', get('id_s'), 'C — Combine', get('id_c'));
-    two('A — Adapt', get('id_ad'), 'M — Modify', get('id_m'));
-    two('P — Put to Other Use', get('id_p'), 'E — Eliminate', get('id_el'));
-    field('R — Reverse', get('id_r'));
+    // Effort-Impact Matrix
+    const hasMatrix = Object.values(matrixStore).some(q => q.length > 0);
+    if (hasMatrix) {
+      secHead('📊 Effort-Impact Matrix', [80,100,130]);
+      two('Quick Wins (Low Effort / High Impact)', matrixStore.q1.map(i=>i.text).join(', ')||'—', 'Big Bets (High Effort / High Impact)', matrixStore.q2.map(i=>i.text).join(', ')||'—');
+      two('Fill-ins (Low Effort / Low Impact)', matrixStore.q3.map(i=>i.text).join(', ')||'—', 'Time Sinks (High Effort / Low Impact)', matrixStore.q4.map(i=>i.text).join(', ')||'—');
+    }
+    // SCAMPER if used
+    if (ideaData.id_scamper_idea && ideaData.id_scamper_idea.trim().length > 2) {
+      secHead('🔀 SCAMPER Analysis', TEAL);
+      field('Idea Being SCAMPER-ed', ideaData.id_scamper_idea||'—');
+      two('S — Substitute', ideaData.id_s||'—', 'C — Combine', ideaData.id_c||'—');
+      two('A — Adapt', ideaData.id_ad||'—', 'M — Modify', ideaData.id_m||'—');
+      two('P — Put to Other Use', ideaData.id_p||'—', 'E — Eliminate', ideaData.id_el||'—');
+      field('R — Reverse', ideaData.id_r||'—');
+    }
     chk(30);
     doc.setFillColor(255,251,235); doc.rect(M, y, CW, 30, 'F');
     doc.setDrawColor(200,170,0); doc.rect(M, y, CW, 30, 'S');
     doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD);
-    doc.text('⭐ OUR BEST IDEA', M+4, y+7);
-    const ins = doc.splitTextToSize(get('id_best') || '—', CW-8);
+    doc.text('OUR BEST IDEA', M+4, y+7);
+    const ins = doc.splitTextToSize(ideaData.id_best || '—', CW-8);
     doc.setFontSize(9.5); doc.setFont('helvetica','italic'); doc.setTextColor(...INK);
     doc.text(ins, M+4, y+14); y += 36;
   }
@@ -2163,6 +2222,21 @@ window.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('vsdt_test_method');
   if (saved) toggleTestOpt(saved);
 });
+
+
+// ── RESET ALL ─────────────────────────────────
+function resetAll() {
+  if (!confirm('This will clear ALL saved work across all 5 modes, ideas, and the proposal form. This cannot be undone. Are you sure?')) return;
+  const keys = ['vsdt_empathise','vsdt_define','vsdt_ideate','vsdt_prototype','vsdt_test','vsdt_proposal','vsdt_mindsets','vsdt_ideas','vsdt_matrix','vsdt_toolmap','vsdt_test_method'];
+  keys.forEach(k => localStorage.removeItem(k));
+  // Clear all visible inputs and textareas
+  document.querySelectorAll('input[type=text], input[type=date], textarea, select').forEach(el => { el.value = ''; });
+  // Clear sticky boards
+  ideas = []; matrixData = {q1:[],q2:[],q3:[],q4:[]};
+  renderBoards(); renderMatrix();
+  buildPortfolioStatus();
+  toast('✓ All data cleared — ready for a new project!');
+}
 
 </script>
 </body>
