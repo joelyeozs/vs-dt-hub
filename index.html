@@ -285,6 +285,57 @@ textarea.short{min-height:58px;}
 .test-opt-btn:hover{border-color:var(--maroon-mid);background:var(--maroon-light);}
 .test-opt-btn.active{border-color:var(--maroon);background:var(--maroon-light);color:var(--maroon);}
 .test-opt-btn strong{font-size:13px;}
+
+/* ── FIDELITY CARDS ── */
+.fid-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px;}
+.fid-card{position:relative;border:2px solid var(--border);background:var(--mist);border-radius:12px;padding:14px 12px 12px;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:6px;}
+.fid-card:hover{border-color:#bbb;background:#fafafa;}
+.fid-card h4{font-size:14px;font-weight:600;color:var(--ink);font-family:'Fraunces',serif;}
+.fid-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:#eee;color:#777;width:fit-content;}
+.fid-desc{font-size:12px;color:var(--mid);line-height:1.45;}
+.fid-check{position:absolute;top:8px;right:10px;font-size:14px;color:transparent;font-weight:700;transition:.2s;}
+.fid-card.sel-low{border-color:#22c55e;background:#f0fdf4;}
+.fid-card.sel-low .fid-badge{background:#22c55e;color:white;}
+.fid-card.sel-low .fid-check{color:#22c55e;}
+.fid-card.sel-mid{border-color:#f59e0b;background:#fffbeb;}
+.fid-card.sel-mid .fid-badge{background:#f59e0b;color:white;}
+.fid-card.sel-mid .fid-check{color:#f59e0b;}
+.fid-card.sel-high{border-color:var(--navy);background:#f0f0ff;}
+.fid-card.sel-high .fid-badge{background:var(--navy);color:white;}
+.fid-card.sel-high .fid-check{color:var(--navy);}
+.fid-ex-btn{margin-top:6px;background:transparent;border:none;color:var(--mid);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;padding:4px 0;text-align:left;letter-spacing:.3px;}
+.fid-ex-btn:hover{color:var(--ink);}
+.fid-examples{display:none;margin-top:6px;padding:10px;background:white;border-radius:8px;border:1px solid var(--border);}
+.fid-examples.open{display:block;}
+.subj-row{font-size:11.5px;line-height:1.6;color:var(--ink);margin-bottom:4px;display:flex;gap:6px;align-items:flex-start;}
+.subj-row:last-child{margin-bottom:0;}
+.subj-tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.4px;padding:2px 6px;border-radius:5px;flex-shrink:0;text-transform:uppercase;}
+.subj-tag-dt{background:#fff8e8;color:#805000;}
+.subj-tag-music{background:#f0f0ff;color:#303080;}
+.subj-tag-art{background:#fff0f5;color:#800040;}
+.subj-tag-fce{background:#f0fff8;color:#005040;}
+.subj-tag-via{background:var(--maroon-light);color:var(--maroon);}
+@media (max-width:560px){.fid-grid{grid-template-columns:1fr;}}
+
+/* ── QUICK TEST COLLAPSIBLES ── */
+.qt-list{display:flex;flex-direction:column;gap:8px;}
+.qt-item{border:1.5px solid var(--border);border-radius:10px;background:var(--mist);overflow:hidden;transition:.2s;}
+.qt-head{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;user-select:none;}
+.qt-head:hover{background:#f0ece6;}
+.qt-cbox{flex-shrink:0;width:18px;height:18px;border:2px solid #c0b8b0;border-radius:5px;background:white;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent;font-weight:700;transition:.15s;}
+.qt-info h4{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.qt-info p{font-size:11.5px;color:var(--mid);line-height:1.4;}
+.qt-body{display:none;padding:0 14px 14px;}
+.qt-body textarea{background:white;}
+.qt-item.active .qt-body{display:block;}
+.qt-item.active.qt-a{border-color:#22c55e;background:#f0fdf4;}
+.qt-item.active.qt-a .qt-cbox{background:#22c55e;border-color:#22c55e;color:white;}
+.qt-item.active.qt-b{border-color:#f59e0b;background:#fffbeb;}
+.qt-item.active.qt-b .qt-cbox{background:#f59e0b;border-color:#f59e0b;color:white;}
+.qt-item.active.qt-c{border-color:var(--maroon);background:var(--maroon-light);}
+.qt-item.active.qt-c .qt-cbox{background:var(--maroon);border-color:var(--maroon);color:white;}
+.qt-item.active.qt-d{border-color:var(--navy);background:#f0f0ff;}
+.qt-item.active.qt-d .qt-cbox{background:var(--navy);border-color:var(--navy);color:white;}
 </style>
 </head>
 <body>
@@ -715,59 +766,142 @@ textarea.short{min-height:58px;}
   <div class="hero teal">
     <div class="hero-tag">Mode 4 of 5</div>
     <h1>🛠️ Prototype</h1>
-    <p>To build a quick, tangible representation of your idea — cheap enough to change, real enough to test.</p>
+    <p>To build a tangible representation of your idea — cheap enough to change, real enough to test.</p>
     <div style="margin-top:20px;"><div class="prog-label">Your progress</div><div class="prog-track"><div class="prog-fill" id="pro-prog"></div></div></div>
   </div>
 
+  <!-- SECTION A — DESCRIPTION + FIDELITY -->
   <div class="card">
-    <div class="card-head"><span class="ico">📐</span><h2>Prototype Brief</h2><span class="badge">Step 1</span></div>
+    <div class="card-head"><span class="ico">📐</span><h2>A — Prototype Description</h2><span class="badge">Section A</span></div>
     <div class="card-body">
-      <div class="tip">Before you build, clarify what you're testing. A prototype should answer a specific question.</div>
-      <div class="field"><label>What is the core idea you are prototyping?</label><textarea id="p_idea" placeholder="Describe your solution in 1-2 sentences…"></textarea></div>
-      <div class="field"><label>What specific question does this prototype need to answer?</label><textarea id="p_question" placeholder="e.g. Will elderly users feel comfortable using a QR code with a built-in help button?"></textarea></div>
-      <div class="field"><label>What type of prototype will you build?</label>
-        <select id="p_type">
-          <option value="">Select a type…</option>
-          <option>Paper prototype / sketch</option>
-          <option>Physical model (cardboard, foam, etc.)</option>
-          <option>Digital mockup (Slides, Canva, Figma)</option>
-          <option>Role-play / experience prototype</option>
-          <option>Video / storyboard</option>
-          <option>Working model / functional prototype</option>
-        </select>
+      <div class="field"><label>What did you create?</label><textarea class="tall" id="p_describe" placeholder="Describe your prototype — what it looks like, what it does, and how someone would interact with it. This could be a physical object, a performance, a recipe, a programme outline…"></textarea></div>
+      <div class="field">
+        <label>Fidelity Level <span class="sub">Tap to select. Expand examples to see what this looks like in your subject.</span></label>
+        <div class="fid-grid">
+
+          <div class="fid-card" id="fid-low" onclick="selectFidelity('low')">
+            <span class="fid-check">✓</span>
+            <h4>Low Fidelity</h4>
+            <span class="fid-badge">Quick idea testing</span>
+            <div class="fid-desc">Fast, rough, inexpensive. Tests whether the core concept works before investing more effort.</div>
+            <button type="button" class="fid-ex-btn" id="fid-ex-btn-low" onclick="event.stopPropagation();toggleFidelityExamples('low')">▸ Subject examples</button>
+            <div class="fid-examples" id="fid-ex-low">
+              <div class="subj-row"><span class="subj-tag subj-tag-dt">D&amp;T</span><span>Sketches, paper/origami prototypes, kraft paper models, role play</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-music">Music</span><span>Hummed melody, rough voice memo, hand-clapped rhythm</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-art">Art</span><span>Compositional sketch, quick colour study, thumbnail drawings</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-fce">FCE</span><span>Test recipe with basic ingredients, rough meal plan</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-via">VIA</span><span>Rough programme outline, storyboard of session flow</span></div>
+            </div>
+          </div>
+
+          <div class="fid-card" id="fid-mid" onclick="selectFidelity('mid')">
+            <span class="fid-check">✓</span>
+            <h4>Mid Fidelity</h4>
+            <span class="fid-badge">Refining interactions</span>
+            <div class="fid-desc">More refined. Tests how the solution actually works with users before finalising.</div>
+            <button type="button" class="fid-ex-btn" id="fid-ex-btn-mid" onclick="event.stopPropagation();toggleFidelityExamples('mid')">▸ Subject examples</button>
+            <div class="fid-examples" id="fid-ex-mid">
+              <div class="subj-row"><span class="subj-tag subj-tag-dt">D&amp;T</span><span>Cardboard model, high-density blue foam, corrugated board, mock environment</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-music">Music</span><span>Recorded draft on instrument, structured peer performance</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-art">Art</span><span>Refined study, maquette, material exploration</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-fce">FCE</span><span>Full test recipe with adjustments, plating trial, tasting session</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-via">VIA</span><span>Pilot mini-session with small group, trial workshop activity</span></div>
+            </div>
+          </div>
+
+          <div class="fid-card" id="fid-high" onclick="selectFidelity('high')">
+            <span class="fid-check">✓</span>
+            <h4>High Fidelity</h4>
+            <span class="fid-badge">Usability validation</span>
+            <div class="fid-desc">Closest to the final outcome. For final validation before submission or launch.</div>
+            <button type="button" class="fid-ex-btn" id="fid-ex-btn-high" onclick="event.stopPropagation();toggleFidelityExamples('high')">▸ Subject examples</button>
+            <div class="fid-examples" id="fid-ex-high">
+              <div class="subj-row"><span class="subj-tag subj-tag-dt">D&amp;T</span><span>Wood &amp; acrylic model, digital prototype, functional working model</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-music">Music</span><span>Polished recorded performance, full arrangement, public performance</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-art">Art</span><span>Final artwork, resolved piece ready for display or submission</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-fce">FCE</span><span>Final dish with full documentation, presented to audience</span></div>
+              <div class="subj-row"><span class="subj-tag subj-tag-via">VIA</span><span>Full pilot programme run with target beneficiaries</span></div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="divider">Step 2</div>
+  <div class="divider">Section B</div>
 
+  <!-- SECTION B — WHY THIS FIDELITY -->
   <div class="card">
-    <div class="card-head"><span class="ico">📦</span><h2>Build Plan</h2><span class="badge">Step 2</span></div>
+    <div class="card-head"><span class="ico">🤔</span><h2>B — Why This Fidelity Level?</h2><span class="badge">Section B</span></div>
     <div class="card-body">
-      <div class="proto-stages">
-        <div class="proto-stage s1"><h4>Materials Needed</h4><textarea id="p_materials" placeholder="e.g. A3 paper, markers, sticky tape…"></textarea></div>
-        <div class="proto-stage s2"><h4>Who Does What</h4><textarea id="p_roles" placeholder="e.g. John — sketches UI, Mary — writes scenario…"></textarea></div>
-        <div class="proto-stage s3"><h4>Steps to Build</h4><textarea id="p_steps" placeholder="e.g. 1. Sketch screens, 2. Cut out, 3. Add labels…"></textarea></div>
-        <div class="proto-stage s4"><h4>Assumptions to Test</h4><textarea id="p_assumptions" placeholder="e.g. Users will intuitively know what the button does…"></textarea></div>
+      <div class="field"><label>Explain why you chose this fidelity level for this stage of your project.</label><textarea class="tall" id="p_fidelity_why" placeholder="e.g. We chose low fidelity because we are still testing the core concept. For VIA, a storyboard lets us trial the structure cheaply before committing resources…"></textarea></div>
+    </div>
+  </div>
+
+  <div class="divider">Section C</div>
+
+  <!-- SECTION C — QUICK TESTING SUMMARY -->
+  <div class="card">
+    <div class="card-head"><span class="ico">⚡</span><h2>C — Quick Testing Summary</h2><span class="badge">Section C</span></div>
+    <div class="card-body">
+      <div class="tip">Select the testing methods you used. Only the ones you tick will expand. You don't need to use all four — choose what fits your prototype and subject context.</div>
+      <div class="qt-list">
+
+        <div class="qt-item qt-a" id="qt-a">
+          <div class="qt-head" onclick="toggleQT('qt-a')">
+            <div class="qt-cbox">✓</div>
+            <div class="qt-info"><h4>⚡ 1-Minute Reaction</h4><p>Show the prototype for 60 seconds without explanation. What was the immediate reaction?</p></div>
+          </div>
+          <div class="qt-body"><textarea id="p_reaction" placeholder="e.g. User immediately tried the button. In Music, the listener hummed along within 20 seconds. In VIA, the participant smiled and leaned forward…"></textarea></div>
+        </div>
+
+        <div class="qt-item qt-b" id="qt-b">
+          <div class="qt-head" onclick="toggleQT('qt-b')">
+            <div class="qt-cbox">✓</div>
+            <div class="qt-info"><h4>🗣️ Try-It-and-Talk</h4><p>Ask the user to interact with the prototype while thinking aloud.</p></div>
+          </div>
+          <div class="qt-body"><textarea id="p_trytalk" placeholder="e.g. User said 'I'm not sure what this part does'. In FCE, taster said the texture was good but too sweet. In Music, peer said the bridge felt abrupt…"></textarea></div>
+        </div>
+
+        <div class="qt-item qt-c" id="qt-c">
+          <div class="qt-head" onclick="toggleQT('qt-c')">
+            <div class="qt-cbox">✓</div>
+            <div class="qt-info"><h4>🎭 Role-Play</h4><p>Act out the scenario with the user in context. Especially useful for VIA, FCE, and experience-based prototypes.</p></div>
+          </div>
+          <div class="qt-body"><textarea id="p_roleplay" placeholder="e.g. When we role-played the befriending session, the elderly participant was more comfortable after the icebreaker than expected…"></textarea></div>
+        </div>
+
+        <div class="qt-item qt-d" id="qt-d">
+          <div class="qt-head" onclick="toggleQT('qt-d')">
+            <div class="qt-cbox">✓</div>
+            <div class="qt-info"><h4>🔄 One-Change Feedback</h4><p>Ask: if you could change ONE thing, what would it be?</p></div>
+          </div>
+          <div class="qt-body"><textarea id="p_onechange" placeholder="e.g. User said slow down the chorus tempo. Taster said reduce the chilli. Resident said they wanted more sharing time…"></textarea></div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="divider">Step 3</div>
+  <div class="divider">Section D</div>
 
+  <!-- SECTION D — IMPROVEMENTS MADE -->
   <div class="card">
-    <div class="card-head"><span class="ico">📸</span><h2>Prototype Documentation</h2><span class="badge">Step 3</span></div>
+    <div class="card-head"><span class="ico">🔧</span><h2>D — Improvements Made</h2><span class="badge">Section D</span></div>
     <div class="card-body">
-      <div class="tip">Describe your prototype as if the reader can't see it. What does it look like? How does it work?</div>
-      <div class="field"><label>Describe what you built</label><textarea class="tall" id="p_describe" placeholder="Walk through what someone would see and do if they used your prototype…"></textarea></div>
+      <div class="field"><label>What did you refine or change after quick testing?</label><textarea class="tall" id="p_improvements" placeholder="Whether you changed a physical model, a recipe, a performance, or a programme plan — describe what you kept, removed, and added based on what you learned…"></textarea></div>
     </div>
   </div>
 
-  <div class="divider">Final Step</div>
+  <div class="divider">Section E</div>
 
+  <!-- SECTION E — NEXT STEPS (insight box style) -->
   <div class="card insight-box">
-    <div class="card-head"><span class="ico">💡</span><h2>Prototype Insight</h2></div>
-    <div class="card-body"><div class="field"><label>What do you predict users will struggle with most?</label><textarea id="p_predict" placeholder="Be honest — identifying weaknesses now saves time later…"></textarea></div></div>
+    <div class="card-head"><span class="ico">🚀</span><h2>E — Next Steps</h2></div>
+    <div class="card-body">
+      <div class="field"><label>What will you prototype or refine next?</label><textarea id="p_nextsteps" placeholder="e.g. Move to mid-fidelity: D&T → cardboard model; Music → proper recording; FCE → full tasting with 5 people; VIA → full pilot with beneficiaries…"></textarea></div>
+    </div>
   </div>
 
   <div class="btn-wrap"><button class="btn-primary" onclick="dlPDF('prototype')">📄 Download My Learning Record</button><div class="save-note" id="p-save">Work auto-saved to this browser</div></div>
@@ -1392,14 +1526,17 @@ const allFields = {
   empathise: ['e_usergroup','e_problem','e_goal','e_interview','e_a','e_e','e_i','e_o','e_u','e_says','e_thinks','e_does','e_feels','e_insight'],
   define: ['d_user','d_need','d_because','d_hmw','d_hmw_why','d_why1','d_why2','d_why3','d_why4','d_why5','d_insight'],
   ideate: ['id_1','id_2','id_3','id_4','id_5','id_6','id_7','id_8','id_9','id_scamper_idea','id_s','id_c','id_ad','id_m','id_p','id_el','id_r','id_best'],
-  prototype: ['p_idea','p_question','p_type','p_materials','p_roles','p_steps','p_assumptions','p_describe','p_predict'],
+  prototype: ['p_describe','p_fidelity_why','p_reaction','p_improvements','p_nextsteps'],
   test: ['t_tester','t_task','t1_worked','t1_delta','t1_questions','t1_ideas','t2_like','t2_wish','t2_whatif','t_observe','t_said','t_worked','t_didnt','t_surprise','t_next','t_goback'],
   proposal: ['pr_title','pr_members','pr_mentor','pr_type','pr_empathy','pr_define','pr_ideate','pr_prototype','pr_test']
 };
 
+const EXTRA_FIELDS = { prototype: ['p_trytalk','p_roleplay','p_onechange'] };
+
 function saveSection(section) {
   const data = {};
-  (allFields[section] || []).forEach(id => {
+  const ids = [...(allFields[section] || []), ...(EXTRA_FIELDS[section] || [])];
+  ids.forEach(id => {
     const el = document.getElementById(id);
     if (el) data[id] = el.value;
   });
@@ -1432,9 +1569,26 @@ function updateProgress(section) {
   const progIds = {empathise:'emp-prog',define:'def-prog',ideate:'ide-prog',prototype:'pro-prog',test:'tst-prog'};
   const pid = progIds[section];
   if (!pid) return;
-  const fields = allFields[section] || [];
-  const filled = fields.filter(id => { const el = document.getElementById(id); return el && el.value.trim().length > 2; }).length;
-  const pct = Math.round((filled / fields.length) * 100);
+  let pct;
+  if (section === 'prototype') {
+    const isFilled = id => { const el = document.getElementById(id); return !!(el && el.value.trim().length > 2); };
+    const isActive = id => { const el = document.getElementById(id); return !!(el && el.classList.contains('active')); };
+    let total = 0, done = 0;
+    // Always-required items
+    ['p_describe','p_fidelity_why','p_improvements','p_nextsteps'].forEach(id => { total++; if (isFilled(id)) done++; });
+    // Fidelity selection
+    total++;
+    if (localStorage.getItem('vsdt_proto_fidelity')) done++;
+    // Quick tests — only counted when active
+    [['qt-a','p_reaction'],['qt-b','p_trytalk'],['qt-c','p_roleplay'],['qt-d','p_onechange']].forEach(([qt,fid]) => {
+      if (isActive(qt)) { total++; if (isFilled(fid)) done++; }
+    });
+    pct = Math.round((done / total) * 100);
+  } else {
+    const fields = allFields[section] || [];
+    const filled = fields.filter(id => { const el = document.getElementById(id); return el && el.value.trim().length > 2; }).length;
+    pct = Math.round((filled / fields.length) * 100);
+  }
   const el = document.getElementById(pid);
   if (el) el.style.width = pct + '%';
 }
@@ -1443,7 +1597,8 @@ function updateProgress(section) {
 window.addEventListener('DOMContentLoaded', () => {
   loadAll();
   Object.keys(allFields).forEach(section => {
-    (allFields[section] || []).forEach(id => {
+    const ids = [...(allFields[section] || []), ...(EXTRA_FIELDS[section] || [])];
+    ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => { clearTimeout(el._t); el._t = setTimeout(() => saveSection(section), 800); });
     });
@@ -1455,7 +1610,7 @@ const modeConfig = [
   { key:'empathise', label:'❤️ Empathise', fields: ['e_usergroup','e_problem','e_goal','e_interview','e_a','e_e','e_i','e_o','e_u','e_says','e_thinks','e_does','e_feels','e_insight'] },
   { key:'define',    label:'🎯 Define',    fields: ['d_user','d_need','d_because','d_hmw','d_why1','d_insight'] },
   { key:'ideate',    label:'💡 Ideate',    fields: ['id_1','id_2','id_3','id_scamper_idea','id_best'] },
-  { key:'prototype', label:'🛠️ Prototype', fields: ['p_idea','p_question','p_describe'] },
+  { key:'prototype', label:'🛠️ Prototype', fields: ['p_describe','p_fidelity_why'] },
   { key:'test',      label:'🧪 Test',      fields: ['t_tester','t_task','t1_worked','t2_like','t_observe','t_worked','t_next'] }
 ];
 
@@ -1918,23 +2073,34 @@ function dlPDF(section) {
     doc.text(ins, M+4, y+14); y += 36;
   }
   else if (section === 'prototype') {
-    secHead('📐 Prototype Brief', TEAL);
-    field('Core Idea Being Prototyped', get('p_idea'));
-    field('Specific Question to Answer', get('p_question'));
-    field('Type of Prototype', get('p_type'));
-    secHead('📦 Build Plan', NAVY);
-    two('Materials Needed', get('p_materials'), 'Who Does What', get('p_roles'));
-    two('Steps to Build', get('p_steps'), 'Assumptions to Test', get('p_assumptions'));
-    secHead('📸 Documentation', [80,100,130]);
-    field('Description of What Was Built', get('p_describe'), WHITE);
-    chk(30);
-    doc.setFillColor(255,251,235); doc.rect(M, y, CW, 30, 'F');
-    doc.setDrawColor(200,170,0); doc.rect(M, y, CW, 30, 'S');
+    const fidKey = localStorage.getItem('vsdt_proto_fidelity');
+    const fidLabel = { low:'Low Fidelity — Quick idea testing', mid:'Mid Fidelity — Refining interactions', high:'High Fidelity — Usability validation' }[fidKey] || 'Not selected';
+    const qtState = JSON.parse(localStorage.getItem('vsdt_proto_qt') || '{}');
+    secHead('A — Prototype Description', TEAL);
+    field('What Was Created', get('p_describe'), WHITE);
+    field('Fidelity Level Selected', fidLabel);
+    secHead('B — Why This Fidelity Level', NAVY);
+    field('Reasoning', get('p_fidelity_why'), WHITE);
+    const qtMethods = [
+      { key:'qt-a', label:'⚡ 1-Minute Reaction', field:'p_reaction' },
+      { key:'qt-b', label:'🗣 Try-It-and-Talk',  field:'p_trytalk' },
+      { key:'qt-c', label:'🎭 Role-Play',         field:'p_roleplay' },
+      { key:'qt-d', label:'🔄 One-Change Feedback', field:'p_onechange' }
+    ].filter(m => qtState[m.key]);
+    if (qtMethods.length) {
+      secHead('C — Quick Testing Summary', [80,100,130]);
+      qtMethods.forEach(m => field(m.label, get(m.field), WHITE));
+    }
+    secHead('D — Improvements Made', TEAL);
+    field('What Was Refined or Changed', get('p_improvements'), WHITE);
+    chk(34);
+    doc.setFillColor(255,251,235); doc.rect(M, y, CW, 32, 'F');
+    doc.setDrawColor(200,170,0); doc.rect(M, y, CW, 32, 'S');
     doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD);
-    doc.text('💡 PROTOTYPE INSIGHT', M+4, y+7);
-    const ins = doc.splitTextToSize(get('p_predict') || '—', CW-8);
+    doc.text('🚀 E — NEXT STEPS', M+4, y+7);
+    const ins = doc.splitTextToSize(get('p_nextsteps') || '—', CW-8);
     doc.setFontSize(9.5); doc.setFont('helvetica','italic'); doc.setTextColor(...INK);
-    doc.text(ins, M+4, y+14); y += 36;
+    doc.text(ins, M+4, y+14); y += 38;
   }
   else if (section === 'test') {
     secHead('📋 Test Plan', MAROON);
@@ -2204,16 +2370,65 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// ── PROTOTYPE: FIDELITY CARDS ─────────────────
+const FID_LEVELS = ['low','mid','high'];
+function selectFidelity(level) {
+  FID_LEVELS.forEach(l => {
+    const card = document.getElementById('fid-' + l);
+    if (!card) return;
+    card.classList.remove('sel-low','sel-mid','sel-high');
+    if (l === level) card.classList.add('sel-' + level);
+  });
+  localStorage.setItem('vsdt_proto_fidelity', level);
+  updateProgress('prototype');
+}
+function toggleFidelityExamples(level) {
+  const box = document.getElementById('fid-ex-' + level);
+  const btn = document.getElementById('fid-ex-btn-' + level);
+  if (!box || !btn) return;
+  const open = box.classList.toggle('open');
+  btn.textContent = (open ? '▾' : '▸') + ' Subject examples';
+}
+
+// ── PROTOTYPE: QUICK TEST COLLAPSIBLES ────────
+const QT_KEYS = ['qt-a','qt-b','qt-c','qt-d'];
+function toggleQT(id) {
+  const item = document.getElementById(id);
+  if (!item) return;
+  item.classList.toggle('active');
+  const state = {};
+  QT_KEYS.forEach(k => { const el = document.getElementById(k); state[k] = !!(el && el.classList.contains('active')); });
+  localStorage.setItem('vsdt_proto_qt', JSON.stringify(state));
+  updateProgress('prototype');
+}
+
+// Restore prototype state on load
+window.addEventListener('DOMContentLoaded', () => {
+  const fid = localStorage.getItem('vsdt_proto_fidelity');
+  if (fid && FID_LEVELS.includes(fid)) {
+    const card = document.getElementById('fid-' + fid);
+    if (card) card.classList.add('sel-' + fid);
+  }
+  const qt = JSON.parse(localStorage.getItem('vsdt_proto_qt') || '{}');
+  QT_KEYS.forEach(k => { if (qt[k]) { const el = document.getElementById(k); if (el) el.classList.add('active'); } });
+  updateProgress('prototype');
+});
+
+
 // ── RESET ALL ─────────────────────────────────
 function resetAll() {
   if (!confirm('This will clear ALL saved work across all 5 modes, ideas, and the proposal form. This cannot be undone. Are you sure?')) return;
-  const keys = ['vsdt_empathise','vsdt_define','vsdt_ideate','vsdt_prototype','vsdt_test','vsdt_proposal','vsdt_mindsets','vsdt_ideas','vsdt_matrix','vsdt_toolmap','vsdt_test_method'];
+  const keys = ['vsdt_empathise','vsdt_define','vsdt_ideate','vsdt_prototype','vsdt_test','vsdt_proposal','vsdt_mindsets','vsdt_ideas','vsdt_matrix','vsdt_toolmap','vsdt_test_method','vsdt_proto_fidelity','vsdt_proto_qt'];
   keys.forEach(k => localStorage.removeItem(k));
   // Clear all visible inputs and textareas
   document.querySelectorAll('input[type=text], input[type=date], textarea, select').forEach(el => { el.value = ''; });
   // Clear sticky boards
   ideas = []; matrixData = {q1:[],q2:[],q3:[],q4:[]};
   renderBoards(); renderMatrix();
+  // Clear prototype UI state
+  FID_LEVELS.forEach(l => { const c = document.getElementById('fid-' + l); if (c) c.classList.remove('sel-' + l); });
+  QT_KEYS.forEach(k => { const el = document.getElementById(k); if (el) el.classList.remove('active'); });
+  updateProgress('prototype');
   buildPortfolioStatus();
   toast('✓ All data cleared — ready for a new project!');
 }
