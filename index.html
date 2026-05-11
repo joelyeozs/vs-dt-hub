@@ -602,44 +602,33 @@ textarea.short{min-height:58px;}
     <div style="margin-top:20px;"><div class="prog-label">Your progress</div><div class="prog-track"><div class="prog-fill" id="ide-prog"></div></div></div>
   </div>
 
-  <!-- STEP 1: BRAINSTORM -->
+  <!-- STEP 1: BRAINSTORM & VOTE (combined) -->
   <div class="card">
-    <div class="card-head"><span class="ico">🌩️</span><h2>Step 1 — Brainstorm</h2><span class="badge">Step 1</span></div>
+    <div class="card-head"><span class="ico">🌩️</span><h2>Step 1 — Brainstorm &amp; Vote</h2><span class="badge">Step 1</span></div>
     <div class="card-body">
-      <div class="tip">No filtering. No judging. Type an idea and press <strong>Enter</strong> or click <strong>+ Add Idea</strong> to add it as a sticky note. Aim for quantity — wild ideas welcome.</div>
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div class="tip"><strong>Add ideas, then vote.</strong> Type an idea and press <strong>Enter</strong> (or click <strong>+ Add Idea</strong>) to drop it on the board. Aim for quantity — wild ideas welcome.<br>Then pass the screen around: <strong>tap any sticky to add a vote 🔵</strong>. Each person gets <strong>3 dots</strong> — use them wisely. Most-voted ideas rise to the top.</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
         <input type="text" id="idea-input" placeholder="Type an idea and press Enter…" onkeydown="if(event.key==='Enter'){event.preventDefault();addIdea();}" style="flex:1;">
         <button onclick="addIdea()" style="background:var(--gold);color:white;border:none;border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">+ Add Idea</button>
       </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;padding:10px 12px;background:var(--mist);border-radius:9px;border:1px solid var(--border);">
+        <div style="font-size:12.5px;color:var(--mid);font-weight:600;">Dots left for this voter:</div>
+        <div id="dots-remaining" style="font-family:'Fraunces',serif;font-size:20px;color:var(--gold);">🔵🔵🔵</div>
+        <button onclick="resetVoter()" style="background:white;border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--mid);margin-left:auto;">New Voter (reset dots)</button>
+      </div>
       <div id="sticky-board" style="display:flex;flex-wrap:wrap;gap:10px;min-height:80px;"></div>
       <div id="no-ideas-hint" style="font-size:12.5px;color:#ccc;text-align:center;padding:20px 0;">Your ideas will appear here as sticky notes</div>
+      <p style="font-size:11.5px;color:#bbb;margin-top:10px;">💡 Tap a sticky to vote • drag a sticky into the matrix below • ✕ removes it</p>
     </div>
   </div>
 
-  <div class="divider">Step 2 — Dot Voting</div>
+  <div class="divider">Step 2 — Effort-Impact Matrix</div>
 
-  <!-- STEP 2: DOT VOTING -->
+  <!-- STEP 2: EFFORT-IMPACT MATRIX -->
   <div class="card">
-    <div class="card-head"><span class="ico">🔵</span><h2>Step 2 — Dot Voting</h2><span class="badge">Step 2</span></div>
+    <div class="card-head"><span class="ico">📊</span><h2>Step 2 — Effort-Impact Matrix</h2><span class="badge">Step 2</span></div>
     <div class="card-body">
-      <div class="tip">Pass the screen around. Each person taps on their favourite ideas to add a dot 🔵. The ideas with the most dots rise to the top. <strong>Each person gets 3 dots</strong> — use them wisely.</div>
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
-        <div style="font-size:13px;color:var(--mid);">Dots remaining for this voter:</div>
-        <div id="dots-remaining" style="font-family:'Fraunces',serif;font-size:22px;color:var(--gold);">🔵🔵🔵</div>
-        <button onclick="resetVoter()" style="background:var(--mist);border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--mid);">New Voter (reset dots)</button>
-      </div>
-      <div id="voting-board" style="display:flex;flex-wrap:wrap;gap:10px;min-height:60px;"></div>
-      <div id="no-vote-hint" style="font-size:12.5px;color:#ccc;text-align:center;padding:16px 0;">Add ideas in Step 1 first</div>
-    </div>
-  </div>
-
-  <div class="divider">Step 3 — Effort-Impact Matrix</div>
-
-  <!-- STEP 3: EFFORT-IMPACT MATRIX -->
-  <div class="card">
-    <div class="card-head"><span class="ico">📊</span><h2>Step 3 — Effort-Impact Matrix</h2><span class="badge">Step 3</span></div>
-    <div class="card-body">
-      <div class="tip">Drag your top ideas (especially highly-voted ones) into the matrix below. Ideas in the <strong>Low Effort / High Impact</strong> quadrant are your best starting point to prototype.</div>
+      <div class="tip">Drag your top ideas (especially highly-voted ones) from the board above into the matrix. Ideas in the <strong>Low Effort / High Impact</strong> quadrant are your best starting point to prototype.</div>
       <div style="position:relative;margin-bottom:8px;">
         <!-- Axis labels -->
         <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:600;color:#aaa;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;padding:0 2px;">
@@ -2093,39 +2082,30 @@ function updateDotsDisplay() {
 }
 function renderBoards() {
   const board = document.getElementById('sticky-board');
-  const vboard = document.getElementById('voting-board');
   const hint = document.getElementById('no-ideas-hint');
-  const vhint = document.getElementById('no-vote-hint');
   if (!board) return;
   board.innerHTML = '';
-  if (vboard) vboard.innerHTML = '';
   if (ideas.length === 0) {
     if (hint) hint.style.display = 'block';
-    if (vhint) vhint.style.display = 'block';
     return;
   }
   if (hint) hint.style.display = 'none';
-  if (vhint) vhint.style.display = 'none';
   const sorted = [...ideas].sort((a,b) => b.dots - a.dots);
   sorted.forEach(idea => {
-    // Brainstorm board sticky
     const s = document.createElement('div');
     s.className = 'sticky' + (idea.dots > 0 ? ' voted' : '');
     s.draggable = true;
     s.dataset.id = idea.id;
-    s.innerHTML = `<span>${idea.text}</span><span class="sticky-votes">${idea.dots > 0 ? '🔵'.repeat(Math.min(idea.dots,5)) : ''}</span><button class="sticky-del" onclick="removeIdea(${idea.id})">✕</button>`;
+    s.style.cursor = 'pointer';
+    const voteLabel = idea.dots > 0 ? '🔵'.repeat(Math.min(idea.dots,5)) + ' ' + idea.dots : 'Tap to vote';
+    s.innerHTML = `<span>${idea.text}</span><span class="sticky-votes">${voteLabel}</span><button class="sticky-del" onclick="event.stopPropagation();removeIdea(${idea.id})">✕</button>`;
+    s.addEventListener('click', e => {
+      if (e.target.closest('.sticky-del')) return;
+      addDot(idea.id);
+    });
     s.addEventListener('dragstart', e => { e.dataTransfer.setData('ideaId', idea.id); s.classList.add('dragging'); });
     s.addEventListener('dragend', () => s.classList.remove('dragging'));
     board.appendChild(s);
-    // Voting board
-    if (vboard) {
-      const v = document.createElement('div');
-      v.className = 'sticky' + (idea.dots > 0 ? ' voted' : '');
-      v.style.cursor = 'pointer';
-      v.innerHTML = `<span>${idea.text}</span><span class="sticky-votes">${idea.dots > 0 ? '🔵'.repeat(Math.min(idea.dots,5)) + ' ' + idea.dots : 'Tap to vote'}</span>`;
-      v.onclick = () => addDot(idea.id);
-      vboard.appendChild(v);
-    }
   });
 }
 
